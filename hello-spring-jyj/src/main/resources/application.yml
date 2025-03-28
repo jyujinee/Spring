@@ -1,0 +1,16 @@
+#spring.application.name=com.ktdsuniversity.edu.jyj
+spring:
+  mvc:
+    view:
+      prefix: /WEB-INF/views/
+      suffix: .jsp
+  application:
+    name: hello-spring-jyj
+  datasource:
+    url: jdbc:oracle:thin:@localhost:1521:XE
+    driver-class-name: oracle.jdbc.driver.OracleDriver
+    username: SPRING_BOOT
+    password: 1234
+    mybatis:
+      config-location: classpath:mybatis/mybatis-config.xml
+      mapper-locations: classpath:com/ktdsuniversity/edu/**/dao/mapper/*.xml
