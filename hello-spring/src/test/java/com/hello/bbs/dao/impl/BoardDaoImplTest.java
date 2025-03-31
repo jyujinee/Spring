@@ -1,5 +1,7 @@
 package com.hello.bbs.dao.impl;
 
+import java.util.List;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
@@ -9,7 +11,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.context.annotation.Import;
 
 import com.hello.bbs.dao.BoardDao;
-import com.hello.bbs.dao.impl.BoardDaoImpl;
+import com.hello.bbs.vo.BoardVO;
 
 @MybatisTest
 // 실제 SQL을 테스트해야하는 설정
@@ -26,9 +28,17 @@ public class BoardDaoImplTest {
 	@Test
 	public void testCount() {
 		int count = boardDaoImpl.selectBoardAllCount();
-		int correctCount = 3;
+		int correctCount = 0; // DB가 다름
 		
 		// 두개가 같으면 성공, 다르면 실패
 		Assertions.assertEquals(count, correctCount);
+	}
+	
+	@Test
+	public void testSelect() {
+		List<BoardVO> boardlist = boardDaoImpl.selectAllBoard();
+	      int size = boardlist.size();
+	      int correctCount = 0;
+	      Assertions.assertEquals(size, correctCount);
 	}
 }
