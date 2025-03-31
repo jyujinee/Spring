@@ -31,4 +31,11 @@ public interface BoardService {
 	 * @return DB에 정상적으로 수정되었는지 여부
 	 */
 	public boolean updateOneBoard(BoardVO boardVO);
+	
+	/*
+	 * 파라미터로 전달받은 게시글 ID의 게시글을 삭제한다.
+	 * @param id 게시글 ID
+	 * @return 정상적으로 삭제되었는지 여부
+	 */
+	public boolean deleteOneBoard(int id);
 }

@@ -64,4 +64,12 @@ public class BoardServiceImpl implements BoardService {
 		return updateCount > 0;
 	}
 
+	@Override
+	public boolean deleteOneBoard(int id) {
+		// 파라미터로 전달받은 id로 게시글을 삭제한다.
+		// deleteCount에는 DB에서 삭제한 게시글의 수
+		int deleteCount = boardDao.deleteOneBoard(id);
+		return deleteCount > 0;
+	}
+
 }

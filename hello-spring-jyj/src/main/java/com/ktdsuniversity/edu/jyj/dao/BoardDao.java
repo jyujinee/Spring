@@ -40,5 +40,12 @@ public interface BoardDao {
 	 * @return DB에 Update한 게시글의 수
 	 */
 	public int updateOneBoard(BoardVO boardVO);
+	
+	/*
+	 * 파라미터로 전달받은 게시글 ID의 게시글을 삭제한다.
+	 * @param id 게시글 ID
+	 * @return DB에 delete한 게시글의 수 
+	 */
+	public int deleteOneBoard(int id);
 
 }

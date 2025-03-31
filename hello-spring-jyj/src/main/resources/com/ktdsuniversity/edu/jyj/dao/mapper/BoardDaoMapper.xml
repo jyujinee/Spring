@@ -23,7 +23,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
      ORDER BY ID DESC
    </select>
    
-   <insert id="createNewBoard"
+   <insert id="insertNewBoard"
            parameterType="com.ktdsuniversity.edu.jyj.vo.BoardVO">
     INSERT INTO BOARD(
            ID, SUBJECT, CONTENT
@@ -31,7 +31,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          , CRT_DT, MDFY_DT
          , FILE_NAME, ORIGIN_FILE_NAME )
     VALUES (
-           SEQ_BOARD_PK.NEXTVAL, #{subject}, #{content},
+           SEQ_BOARD_PK.NEXTVAL, #{subject}, #{content}
          , #{email}, 0
          , SYSDATE, SYSDATE
          , #{fileName}, #{originFileName} )
@@ -59,4 +59,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       FROM BOARD
      WHERE ID = {#_parameter}
    </select>
+   
+   <update id ="updateOneBoard"
+           parameterType ="com.ktdsuniversity.edu.jyj.vo.BoardVO">
+    UPDATE BOARD
+       SET SUBJECT = #{subject}
+         , CONTENT = #{content} 
+         . EMAIL = #{email}
+         , MDFY_DT = SYSDATE
+     WHERE ID = #{id}
+   </update>
+   
+   <delete id = "deleteOneBoard"
+           parameterType = "_int">
+    DELETE 
+      FROM BOARD
+     WHERE ID = #{_parameter} 
+   </delete>
 </mapper>

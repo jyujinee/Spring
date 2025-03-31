@@ -36,6 +36,7 @@ public class BoardController {
 		return "board/boardwrite";
 	}
 
+	// 게시글 작성
 	@PostMapping("/hello-jyj/board/write")
 	public ModelAndView doBoardWrite(BoardVO boardVO) {
 		System.out.println("제목: " + boardVO.getSubject());
@@ -112,6 +113,17 @@ public class BoardController {
 			modelAndView.setViewName("board/boardmodify");
 			modelAndView.addObject("boardVO", boardVO);
 			return modelAndView;
+		}
+	}
+	
+	@GetMapping("/hello-jyj/board/delete/{id}")
+	public String doDeleteBoard(@PathVariable int id) {
+		boolean isSuccess = boardService.deleteOneBoard(id);
+		if(isSuccess) {
+			return "redirect:/board/list";
+		}
+		else {
+			return "redirect:/board/view?id=" + id;
 		}
 	}
 }
