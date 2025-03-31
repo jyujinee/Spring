@@ -33,6 +33,12 @@ public interface BoardDao {
 	 */
 	public BoardVO selectOneBoard(int id);
 
-	
+	/*
+	 * DB에 게시글의 정보를 수정한다.
+	 * BoardVO의 id값에 수정할 게시글의 ID값이 있어야한다.
+	 * @param boardVO 사용자가 수정한 게시글의 정보
+	 * @return DB에 Update한 게시글의 수
+	 */
+	public int updateOneBoard(BoardVO boardVO);
 
 }
