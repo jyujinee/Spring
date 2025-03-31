@@ -11,7 +11,7 @@ import com.ktdsuniversity.edu.jyj.vo.BoardVO;
 
 @Repository
 public class BoardDaoImpl extends SqlSessionDaoSupport implements BoardDao{
-
+	
 	@Autowired
 	@Override
 	public void setSqlSessionTemplate(SqlSessionTemplate sqlSessionTemplate) {
@@ -41,7 +41,7 @@ public class BoardDaoImpl extends SqlSessionDaoSupport implements BoardDao{
 
 	@Override
 	public BoardVO selectOneBoard(int id) {
-		return getSqlSession().selectOne("getOneBoard", id);
+		return getSqlSession().selectOne("selectOneBoard", id);
 	}
 
 	@Override

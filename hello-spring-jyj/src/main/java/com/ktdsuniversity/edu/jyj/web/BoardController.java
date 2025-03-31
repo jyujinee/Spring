@@ -53,7 +53,7 @@ public class BoardController {
 		boolean isSuccess = boardService.insertNewBoard(boardVO);
 		if (isSuccess) {
 			// 게시글 등록 결과가 성공이라면 /board/list URL로 이동한다.
-			modelAndView.setViewName("redirect:/board/list");
+			modelAndView.setViewName("redirect:/hello-jyj/board/list");
 			return modelAndView;
 		} else {
 			// 게시글 등록 결과가 실패라면
@@ -106,7 +106,7 @@ public class BoardController {
 		boolean isSuccess = boardService.updateOneBoard(boardVO);
 		if (isSuccess) {
 			// 게시글 수정 결과가 성공이면, /board/view=?id=id URL로 이동한다.
-			modelAndView.setViewName("redirect:/board/view=?id=" + boardVO.getId());
+			modelAndView.setViewName("redirect:/hello-jyj/board/view=?id=" + boardVO.getId());
 			return modelAndView;
 		} else {
 			// 실패라면, 게시글 수정화면으로 데이터를 보내준다.
@@ -120,10 +120,10 @@ public class BoardController {
 	public String doDeleteBoard(@PathVariable int id) {
 		boolean isSuccess = boardService.deleteOneBoard(id);
 		if(isSuccess) {
-			return "redirect:/board/list";
+			return "redirect:/hello-jyj/board/list";
 		}
 		else {
-			return "redirect:/board/view?id=" + id;
+			return "redirect:/hello-jyj/board/view?id=" + id;
 		}
 	}
 }
