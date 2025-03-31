@@ -28,7 +28,7 @@ public class BoardDaoImplTest {
 	@Test
 	public void testCount() {
 		int count = boardDaoImpl.selectBoardAllCount();
-		int correctCount = 0; // DB가 다름
+		int correctCount = 0; // 사용하는 컴퓨터 마다 DB가 다름(DB에서 확인하기)
 		
 		// 두개가 같으면 성공, 다르면 실패
 		Assertions.assertEquals(count, correctCount);
