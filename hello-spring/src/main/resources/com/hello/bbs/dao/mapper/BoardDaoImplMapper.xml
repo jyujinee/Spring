@@ -2,14 +2,14 @@
 <!DOCTYPE mapper 
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ktdsuniversity.edu.jyj.dao.BoardDao">
+<mapper namespace="com.hello.bbs.dao.impl.BoardDaoImpl">
    <select id="selectBoardAllCount" resultType="_int">
    SELECT COUNT(1)
    FROM BOARD
    </select>
 
    <select id="selectAllBoard"
-           resultType="com.ktdsuniversity.edu.jyj.vo.BoardVO">
+           resultType="com.hello.bbs.vo.BoardVO">
     SELECT ID
          , SUBJECT
          , CONTENT
@@ -23,30 +23,34 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
      ORDER BY ID DESC
    </select>
    
+
    <insert id="insertNewBoard"
-           parameterType="com.ktdsuniversity.edu.jyj.vo.BoardVO">
-    INSERT INTO BOARD(
-           ID, SUBJECT, CONTENT
-         , EMAIL, VIEW_CNT
-         , CRT_DT, MDFY_DT
-         , FILE_NAME, ORIGIN_FILE_NAME )
-    VALUES (
-           SEQ_BOARD_PK.NEXTVAL, #{subject}, #{content}
-         , #{email}, 0
-         , SYSDATE, SYSDATE
-         , #{fileName}, #{originFileName} )
+           parameterType="com.hello.bbs.vo.BoardWriteRequestVO">
+    INSERT INTO BOARD
+           (ID
+         , SUBJECT
+         , CONTENT
+         , EMAIL
+         , VIEW_CNT
+         , CRT_DT
+         , MDFY_DT
+         , FILE_NAME
+         , ORIGIN_FILE_NAME )
+    VALUES 
+           (SEQ_BOARD_PK.NEXTVAL
+         , #{subject}
+         , #{content}
+         , #{email}
+         , 0
+         , SYSDATE
+         , NULL
+         , NULL
+         , NULL)
    </insert>
    
-   <update id ="increaseViewCount"
-           parameterType = "_int">
-    UPDATE BOARD
-       SET VIEW_CNT = VIEW_CNT + 1
-     WHERE ID = #{_parameter}
-   </update>
-   
    <select id="selectOneBoard"
-           parameterType = "_int"
-           resultType="com.ktdsuniversity.edu.jyj.vo.BoardVO">
+           parameterType="_int"
+           resultType="com.hello.bbs.vo.BoardVO">
     SELECT ID
          , SUBJECT
          , CONTENT
@@ -60,20 +64,28 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
      WHERE ID = #{_parameter}
    </select>
    
-   <update id ="updateOneBoard"
-           parameterType ="com.ktdsuniversity.edu.jyj.vo.BoardVO">
+   <update id = "updateViewCountBy"
+           parameterType="_int">
+    UPDATE BOARD
+       SET VIEW_CNT = VIEW_CNT + 1
+     WHERE ID = #{_parameter}
+   </update>
+   
+   <delete id = "deleteOneBoard"
+           parameterType="_int">
+    DELETE 
+      FROM BOARD
+     WHERE ID = #{_parameter}
+   </delete>
+   
+   <update id = "updateOneBoard"
+           parameterType = "com.hello.bbs.vo.BoardUpdateRequestVO">
     UPDATE BOARD
        SET SUBJECT = #{subject}
-         , CONTENT = #{content} 
-         . EMAIL = #{email}
+         , CONTENT = #{content}
+         , EMAIL = #{email}
          , MDFY_DT = SYSDATE
      WHERE ID = #{id}
    </update>
    
-   <delete id = "deleteOneBoard"
-           parameterType = "_int">
-    DELETE 
-      FROM BOARD
-     WHERE ID = #{_parameter} 
-   </delete>
 </mapper>

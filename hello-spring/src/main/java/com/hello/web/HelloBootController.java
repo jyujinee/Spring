@@ -18,6 +18,13 @@ public class HelloBootController {
 //	public ResponseEntity<String> hello(){ // 응답의 형태를 제네릭<>으로 정의한다.
 //		return new ResponseEntity<>("Hello Boot Controller123", HttpStatus.OK);
 //	}
+	
+//	@GetMapping("/hello")
+//	public String viewHomePage() {
+//		return "redirect:/board/list"; // forward와 비슷하지만, forward는 잘 쓰지 않는다.
+////		return "forward:/board/list";
+//		// redirect는 실제로 해당 url로 이동시킨다. forward는 url은 유지되지만, 노출되는 화면은 해당 url로 변경된다.
+//	}
 
 	@GetMapping("/hello")
 	// ResponseEntity는 특별한 경우가 아니면 쓰지 않는다.

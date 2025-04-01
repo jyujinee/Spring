@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.hello.bbs.dao.BoardDao;
+import com.hello.bbs.vo.BoardUpdateRequestVO;
 import com.hello.bbs.vo.BoardVO;
+import com.hello.bbs.vo.BoardWriteRequestVO;
 
 @Repository
 public class BoardDaoImpl extends SqlSessionDaoSupport implements BoardDao{
@@ -30,33 +32,28 @@ public class BoardDaoImpl extends SqlSessionDaoSupport implements BoardDao{
 	}
 	
 	@Override
-	public int insertNewBoard(BoardVO boardVO) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int insertNewBoard(BoardWriteRequestVO boardWriteRequestVO) {
+		return getSqlSession().insert(NAME_SPACE + "insertNewBoard", boardWriteRequestVO);
 	}
 
 	@Override
-	public int increaseViewCount(int id) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int updateViewCountBy(int id) {
+		return getSqlSession().update(NAME_SPACE + "updateViewCountBy", id);
 	}
-
+	
 	@Override
 	public BoardVO selectOneBoard(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		return getSqlSession().selectOne(NAME_SPACE + "selectOneBoard", id);
 	}
-
-	@Override
-	public int updateOneBoard(BoardVO boardVO) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
+	
 	@Override
 	public int deleteOneBoard(int id) {
-		// TODO Auto-generated method stub
-		return 0;
+		return getSqlSession().delete(NAME_SPACE + "deleteOneBoard", id);
+	}
+
+	@Override
+	public int updateOneBoard(BoardUpdateRequestVO boardUpdateRequestVO) {
+		return getSqlSession().update(NAME_SPACE + "updateOneBoard", boardUpdateRequestVO);
 	}
 	
 }

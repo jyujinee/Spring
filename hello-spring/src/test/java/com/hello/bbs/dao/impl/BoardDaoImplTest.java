@@ -11,7 +11,9 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.context.annotation.Import;
 
 import com.hello.bbs.dao.BoardDao;
+import com.hello.bbs.vo.BoardUpdateRequestVO;
 import com.hello.bbs.vo.BoardVO;
+import com.hello.bbs.vo.BoardWriteRequestVO;
 
 @MybatisTest
 // 실제 SQL을 테스트해야하는 설정
@@ -28,17 +30,62 @@ public class BoardDaoImplTest {
 	@Test
 	public void testCount() {
 		int count = boardDaoImpl.selectBoardAllCount();
-		int correctCount = 0; // 사용하는 컴퓨터 마다 DB가 다름(DB에서 확인하기)
 		
-		// 두개가 같으면 성공, 다르면 실패
-		Assertions.assertEquals(count, correctCount);
+		Assertions.assertTrue(count > 0);
+//		int correctCount = 6; // 사용하는 컴퓨터 마다 DB가 다름(DB에서 확인하기)
+//		Assertions.assertEquals(count, correctCount); // 두개가 같으면 성공, 다르면 실패
 	}
 	
 	@Test
 	public void testSelect() {
 		List<BoardVO> boardlist = boardDaoImpl.selectAllBoard();
 	      int size = boardlist.size();
-	      int correctCount = 0;
-	      Assertions.assertEquals(size, correctCount);
+	      
+	      Assertions.assertTrue(size > 0);
+//	      int correctCount = 6;
+//	      Assertions.assertEquals(size, correctCount);
 	}
+	
+	// testInsert는 자동으로 RollBack되어 DB에 데이터가 저장되지 않는다.
+	@Test
+	public void testInsert() {
+		BoardWriteRequestVO testVO = new BoardWriteRequestVO();
+		testVO.setContent("testContent");
+		testVO.setEmail("testEmail");
+		testVO.setSubject("testSubject");
+		
+		int insertedCount = this.boardDaoImpl.insertNewBoard(testVO);
+		Assertions.assertEquals(insertedCount, 1);
+	}
+	
+	@Test
+	public void testUpdateViewCount() {
+		int updateCount = this.boardDaoImpl.updateViewCountBy(26);
+		Assertions.assertTrue(updateCount == 1);
+	}
+	
+	@Test
+	public void testSelectOne() {
+		BoardVO boardVO = this.boardDaoImpl.selectOneBoard(26);
+		Assertions.assertNotNull(boardVO);
+	}
+	
+	@Test
+	public void testDeleteOne() {
+		int deleteCount = this.boardDaoImpl.deleteOneBoard(26);
+		Assertions.assertTrue(deleteCount == 1);
+	}
+	
+	@Test
+	public void testUpdateOne() {
+		BoardUpdateRequestVO testVO = new BoardUpdateRequestVO();
+		testVO.setId(26);
+		testVO.setSubject("testSubject");
+		testVO.setContent("testContent");
+		testVO.setEmail("testEmail");
+		
+		int updateCount = this.boardDaoImpl.updateOneBoard(testVO);
+		Assertions.assertEquals(updateCount, 1);
+	}
+	
 }

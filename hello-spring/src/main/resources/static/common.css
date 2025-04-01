@@ -1,0 +1,54 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  color: #333;
+}
+
+/* input styles */
+button,
+input,
+textarea {
+  padding: 0.625rem;
+  outline: none;
+  border: 1px solid #ccc;
+}
+
+/* label styles */
+label {
+  padding-left: 0.625rem;
+  padding: 0.312rem 0 0.625rem 0.625rem;
+}
+
+/* wrapper styles */
+.detail-wrapper > .grid {
+  display: grid;
+  grid-template-columns: 5rem 1fr;
+  grid-template-rows: repeat(5, 1.75rem) 20rem 1fr;
+  row-gap: 0.625rem;
+}
+
+/*  form styles */
+/* form.write-form: form인데 write-form이 클래스인 것 */
+form.write-form > .grid {
+  display: grid;
+  grid-template-columns: 5rem 1fr;
+  grid-template-rows: repeat(2, 1.75rem) 20rem 1fr;
+  row-gap: 0.625rem;
+}
+
+form.write-form #content {
+  height: 100%;
+}
+
+/* button group styles */
+.grid > .btn-group {
+  grid-column: 1 / -1; /* 한줄을 다 합침 */
+}
+
+/* align styles */
+.right-align {
+  text-align: right;
+}
