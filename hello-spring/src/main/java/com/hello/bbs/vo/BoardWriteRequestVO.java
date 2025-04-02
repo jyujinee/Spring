@@ -1,11 +1,37 @@
 package com.hello.bbs.vo;
 
+import java.util.List;
+import org.springframework.web.multipart.MultipartFile;
+
 public class BoardWriteRequestVO {
+	
 	// 데이터 베이스에 전송할 데이터만 가져온다.
 	private String subject;
 	private String content;
 	private String email;
 	
+	// 스프링에서 file의 타입은 MultipartFile이다.
+//	private MultipartFile file;
+	
+	// 파일의 아이디를 미리 발급받아 쿼리에 맵퍼하기 위해 id를 변수로 만든다.
+	private int id;
+	
+	// 첨부파일이 여러개인 경우 List이다.
+	private List<MultipartFile> file;
+	
+	public List<MultipartFile> getFile() {
+		return file;
+	}
+	public void setFile(List<MultipartFile> file) {
+		this.file = file;
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	public String getSubject() {
 		return subject;
 	}

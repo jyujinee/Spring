@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.hello.bbs.dao.BoardDao;
 import com.hello.bbs.service.BoardService;
@@ -11,13 +12,21 @@ import com.hello.bbs.vo.BoardListVO;
 import com.hello.bbs.vo.BoardUpdateRequestVO;
 import com.hello.bbs.vo.BoardVO;
 import com.hello.bbs.vo.BoardWriteRequestVO;
+import com.hello.beans.FileHandler;
+import com.hello.beans.FileHandler.StoredFile;
+import com.hello.file.dao.FileDao;
+import com.hello.file.vo.FileVO;
 
 @Service
 public class BoardServiceImpl implements BoardService {
 
     @Autowired
     private BoardDao boardDao;
-
+    @Autowired
+    private FileHandler fileHandler; // Bean Container에 있는 fileHandler 인스턴스가 들어온다.
+    @Autowired
+    private FileDao fileDao;
+    
 	@Override
 	public BoardListVO getBoardList() {
 		int count = this.boardDao.selectBoardAllCount();
@@ -31,7 +40,39 @@ public class BoardServiceImpl implements BoardService {
 	
 	@Override
 	public boolean createNewBoard(BoardWriteRequestVO boardWriteRequestVO) {
-		return this.boardDao.insertNewBoard(boardWriteRequestVO) > 0;
+		
+		int insertCount = this.boardDao.insertNewBoard(boardWriteRequestVO);
+		
+		// if insertCount > 0 then file upload
+		if(insertCount > 0) {
+			
+			for(MultipartFile file: boardWriteRequestVO.getFile()) {
+				StoredFile storedFile = this.fileHandler.store(file);
+				// NullpointerException을 확인해야한다. 
+				// storedFile null이 되는 경우를 방어 코딩 해야한다.
+				if(storedFile != null) {
+					// 파일 업로드가 정상적으로 이루어졌다.
+					// 파일 테이블에 필요한 파일 데이터를 추가한다.
+					// 게시글 아이디를 미리 발급받아서 insert한다. => mybatis에서 지원
+//					System.out.println("새로운 게시글의 아이디는 " + boardWriteRequestVO.getId() + "입니다.");
+//					System.out.println(storedFile.getFileName());
+//					System.out.println(storedFile.getFileSize());
+//					System.out.println(storedFile.getRealFileName());
+//					System.out.println(storedFile.getRealFilePath());
+					
+					FileVO fileVO = new FileVO();
+					fileVO.setId(boardWriteRequestVO.getId());
+					fileVO.setFlNm(storedFile.getFileName());
+					fileVO.setObfsFlNm(storedFile.getRealFileName());
+					fileVO.setObfsPth(storedFile.getRealFilePath());
+					fileVO.setFlSz(storedFile.getFileSize());
+					
+					// 데이터 베이스에 파일 테이블에 파일 정보를 저장한다(insert).
+					this.fileDao.insertNewFile(fileVO);
+				}
+			}
+		}
+		return insertCount > 0;
 	}
 
 	@Override
@@ -42,19 +83,26 @@ public class BoardServiceImpl implements BoardService {
 			int updatedCount = this.boardDao.updateViewCountBy(id);
 			
 			// 2. 업데이트의 수가 0보다 크다면 게시글이 존재한다는 의미이므로, 게시글을 조회 해온다.
-			if(updatedCount > 0) {
-				BoardVO boardVO = this.boardDao.selectOneBoard(id);
-				// 게시글 반환.
-				return boardVO;
+//			if(updatedCount > 0) {
+//				BoardVO boardVO = this.boardDao.selectOneBoard(id);
+//				// 게시글 반환.
+//				return boardVO;
+//			}
+			
+			// 게시글 조회수 증가 방지
+			if(updatedCount == 0) {
+				throw new IllegalArgumentException(id + "는 존재하지 않는 게시글 번호입니다.");		
 			}
-//			return null;
-			throw new IllegalArgumentException(id + "는 존재하지 않는 게시글 번호입니다.");		
 		}
+		
+		
 		// 게시글의 조회 수를 증가 시키지 않고, 화면(게시글)을 보여준다.
 		BoardVO boardVO = this.boardDao.selectOneBoard(id);
+		
 		if (boardVO == null) {
 			throw new IllegalArgumentException(id + "는 존재하지 않는 게시글 번호입니다.");
 		}// 여기 나중에 보기!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		// 게시글 반환.
 		return boardVO;
 	}
 

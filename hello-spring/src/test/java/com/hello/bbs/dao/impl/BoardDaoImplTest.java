@@ -66,8 +66,11 @@ public class BoardDaoImplTest {
 	
 	@Test
 	public void testSelectOne() {
-		BoardVO boardVO = this.boardDaoImpl.selectOneBoard(26);
+		// insert -> 게시글 ID-> 조회
+		BoardVO boardVO = this.boardDaoImpl.selectOneBoard(68);
 		Assertions.assertNotNull(boardVO);
+		Assertions.assertNotNull(boardVO.getFileList());
+		Assertions.assertTrue(boardVO.getFileList().size()>0);
 	}
 	
 	@Test

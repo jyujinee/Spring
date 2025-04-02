@@ -56,7 +56,8 @@ public class BoardServiceImplTest {
 		// 역할 놀이 시작
 		
 		// Given
-		BDDMockito.given(this.boardDao.insertNewBoard(testVO)).willReturn(1);
+		BDDMockito.given(this.boardDao.insertNewBoard(testVO))
+				  .willReturn(1);
 		
 		// When
 		boolean success = this.boardService.createNewBoard(testVO);
@@ -68,7 +69,8 @@ public class BoardServiceImplTest {
 	@Test
 	public void createTestFail() {
 		// Given
-		BDDMockito.given(this.boardDao.insertNewBoard(null)).willReturn(0);
+		BDDMockito.given(this.boardDao.insertNewBoard(null))
+				  .willReturn(0);
 		// When
 		boolean isFail = this.boardService.createNewBoard(null);
 
@@ -85,7 +87,7 @@ public class BoardServiceImplTest {
 		BDDMockito.given(this.boardDao.updateViewCountBy(1_000_000))
 				  .willReturn(1);
 		// When
-		BoardVO boardVO = this.boardService.getOneBoard(1_000_000);
+		BoardVO boardVO = this.boardService.getOneBoard(1_000_000, true);
 		
 		// Then
 		Assertions.assertNotNull(boardVO); // Null이 아니면 서비스 동작 성공.		
@@ -103,7 +105,7 @@ public class BoardServiceImplTest {
 //		BDDMockito.when(this.boardService.getOneBoard(1_000_000)).thenThrow(IllegalArgumentException.class);
 		 
 		try{
-			this.boardService.getOneBoard(1_000_000);
+			this.boardService.getOneBoard(1_000_000, true);
 		}
 		catch(IllegalArgumentException iae){
 			Assertions.assertEquals("1000000는 존재하지 않는 게시글 번호입니다.", iae.getMessage());

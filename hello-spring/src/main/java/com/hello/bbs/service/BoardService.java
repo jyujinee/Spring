@@ -13,9 +13,11 @@ public interface BoardService {
 //	서비스 제공에 성공했으면 true, 아니면 false
 	public boolean createNewBoard(BoardWriteRequestVO boardWriteRequestVO);	
 	
-	public BoardVO getOneBoard(int id);
+//	public BoardVO getOneBoard(int id);
+	public BoardVO getOneBoard(int id, boolean isIncrease);
 
 	public boolean deleteOneBoard(int id);
 
 	public boolean updateOneBoard(BoardUpdateRequestVO boardUpdateRequestVO);
+
 }

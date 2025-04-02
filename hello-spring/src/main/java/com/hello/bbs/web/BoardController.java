@@ -22,6 +22,7 @@ public class BoardController {
     
     @GetMapping("/board/list") // 페이지 주소(URL)에 접속하면, 아래의 메소드에 맵핑해준다.
     public String viewBoardList(Model model) { // 데이터를 전송해주는 모델
+    	
     	BoardListVO boardListVO = this.boardService.getBoardList(); //getter
     	model.addAttribute("boardList",boardListVO);
     	return "board/boardlist"; // 화면에 보이는 뷰(파일)네임
@@ -37,6 +38,7 @@ public class BoardController {
     // 브라우저가 서버에게 보내는 데이터를 받아온다 -> Controller의 파라미터 사용
     @PostMapping("/board/write")
     public String doBoardWrite(BoardWriteRequestVO boardWriteRequestVO) {
+    	
     	boolean isCreated = this.boardService.createNewBoard(boardWriteRequestVO); //setter
     	
     	if(isCreated) {
@@ -58,14 +60,14 @@ public class BoardController {
     	// 파라미터가 하나밖에 없어서 (BoardVO boardVO)대신 int로 받음 
     	// Model은 jsp에게 데이터를 전송하기 위해서 사용한다. -> $ {}에 들어가는 값은 model의 key값이다.
     	// 따라서 Model에서 받은 데이터를 가진 새로운 화면으로 이동한다.
-    	BoardVO boardVO = this.boardService.getOneBoard(id);
+    	BoardVO boardVO = this.boardService.getOneBoard(id, true);
     	model.addAttribute("boardVO", boardVO);
     	return "board/boardview";
     }
     // 2. Path Variable Parameter: /board/view/3 (url 자체를 파라미터로 전달하는 방법)
     @GetMapping("/board/view/{id}")
     public String viewBoardDetailPageUsePathVariableParameter(@PathVariable int id, Model model) {
-    	BoardVO boardVO = this.boardService.getOneBoard(id);
+    	BoardVO boardVO = this.boardService.getOneBoard(id, true);
     	model.addAttribute("boardVO", boardVO);
     	return "board/boardview";
     }
@@ -83,7 +85,7 @@ public class BoardController {
     }
     
     // 게시글을 수정해서 DB에 데이터를 전송한다.
-    @GetMapping("/board/update/{id}")
+    @PostMapping("/board/modify/{id}")
     public String doUpdateOneBoard(@PathVariable int id, BoardUpdateRequestVO boardUpdateRequestVO) {
     	boolean isSuccess = this.boardService.updateOneBoard(boardUpdateRequestVO);
     	
@@ -93,14 +95,15 @@ public class BoardController {
     	
     	return "redirect:/board/list";
     }
-    // 수정된 게시글을 보여준다
-    @GetMapping("/board/update/{id}")
+    // 수정된 게시글을 보여준다 -> View가 필요하기 때문에 model이 파라미터로 들어간다.
+    @GetMapping("/board/modify/{id}")
     public String viewBoardUpdatePage(@PathVariable int id, Model model) {
+    	
     	// 수정된 게시글을 보여주기 때문에 조회수 증가를 방지하기 위해 false를 준다.
     	BoardVO boardVO = this.boardService.getOneBoard(id, false);
+    	
     	model.addAttribute("boardVO", boardVO);
     	return "board/boardmodify";
     }
-    
 
 }

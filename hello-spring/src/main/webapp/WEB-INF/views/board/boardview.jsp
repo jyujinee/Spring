@@ -19,6 +19,13 @@ pageEncoding="UTF-8"%>
         <label>이메일</label>
         <div>${boardVO.email}</div>
 
+        <label>첨부파일</label>
+        <div>
+          <a href="/file/${boardVO.id}/${boardVO.fileList[0].flId}">
+            ${boardVO.fileList[0].flNm}
+          </a>
+        </div>
+
         <label>조회수</label>
         <div>${boardVO.viewCnt}</div>
 

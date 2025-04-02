@@ -1,7 +1,24 @@
 # spring.application.name=hello-spring
 # yml은 자식과 부모의 들여쓰기는 똑같이 맞춰야한다. (스페이스는 스페이스만 해야만한다. 탭사용 불가!)
 
+# hello-spring 전용 설정(커스텀 설정)
+app:
+  multipart:
+    base-dir: 
+      window: C:\upload-files # 서버에 업로드된 파일이 저장되는 경로
+      linux: /var/local/src/upload-files
+      macos: /document/upload-files
+    obfuscation:
+      enable: true # 서버에 업로드된 파일의 이름을 난독화하는 설정
+      hide-ext:
+        enable: true # 서버에 업로드된 파일의 확장자를 가리는 설정
+
 spring:
+  suvlet:
+    multipart:
+      enabled: true # 파일 업로드 설정
+      max-request-size: 10MB # 사용자 한명당 업로드 할 수 있는 최대용량
+      max-file-size: 100MB # 서버가 허용하는 최대 업로드 용량
   mvc:
     view:
       prefix: /WEB-INF/views/
@@ -13,6 +30,7 @@ spring:
     driver-class-name: oracle.jdbc.driver.OracleDriver
     username: SPRING_BOOT
     password: 1234
+    
 mybatis:
   config-location: classpath:mybatis/mybatis-config.xml
   mapper-locations: classpath:com/hello/**/mapper/*Mapper.xml
