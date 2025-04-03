@@ -45,4 +45,9 @@ public class CustomBeanProvider {
 		
 		return fileHandler;
 	}
+	
+	@Bean
+	Sha sha() {
+		return new Sha();
+	}
 }

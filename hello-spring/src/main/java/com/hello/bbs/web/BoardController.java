@@ -3,7 +3,9 @@ package com.hello.bbs.web;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -13,6 +15,8 @@ import com.hello.bbs.vo.BoardListVO;
 import com.hello.bbs.vo.BoardUpdateRequestVO;
 import com.hello.bbs.vo.BoardVO;
 import com.hello.bbs.vo.BoardWriteRequestVO;
+
+import jakarta.validation.Valid;
 
 @Controller
 public class BoardController {
@@ -37,7 +41,23 @@ public class BoardController {
     // 게시글 등록과 같은 URL이지만, 맵핑되는 메소드는 다르다.
     // 브라우저가 서버에게 보내는 데이터를 받아온다 -> Controller의 파라미터 사용
     @PostMapping("/board/write")
-    public String doBoardWrite(BoardWriteRequestVO boardWriteRequestVO) {
+    public String doBoardWrite(@Valid @ModelAttribute BoardWriteRequestVO boardWriteRequestVO,
+    							BindingResult bindingResult,
+    							Model model) {
+    	// @Valid는 파라미터 입력값 검사를 요청한다, 바로 BindingResult가 와야하며
+    	// BindingResult는 @Valid의 검사 결과를 받아온다.
+    	// @ModelAttribute 스프링 form taglib를 사용할 떄만 작성
+    	
+    	
+    	// 에러가 있을 때 (유효성 검사의 에러) 게시글을 등록하면 안된다.
+    	// 사용자에게 잘못 입력했음을 알려줘야한다.
+    	// 사용자가 입력했던 모든 내용들을 글쓰기 페이지로 다 보내줘야 한다.
+    	// 에러의 내용도 보내줘야한다. --> 자동 전송됨
+    	if(bindingResult.hasErrors()) {
+    		model.addAttribute("userWriteBoard", boardWriteRequestVO);
+    		return "board/boardwrite";
+    	}
+    	System.out.println(bindingResult.hasErrors());
     	
     	boolean isCreated = this.boardService.createNewBoard(boardWriteRequestVO); //setter
     	

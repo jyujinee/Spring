@@ -6,7 +6,15 @@ body {
   margin: 0;
   color: #333;
 }
-
+/*link styles */
+a {
+	text-decoration: none;
+	color: #222;
+	font-weight: 600; /* 기본 굵기는 400 */
+}
+a:hover {
+	color: #666;
+}
 /* input styles */
 button,
 input,
@@ -16,27 +24,41 @@ textarea {
   border: 1px solid #ccc;
 }
 
+input,
+textarea {
+	width: 100%;
+}
+
 /* label styles */
 label {
   padding-left: 0.625rem;
-  padding: 0.312rem 0 0.625rem 0.625rem;
+  padding: 0.312rem 0 0.312rem 0.625rem;
 }
 
 /* wrapper styles */
 .detail-wrapper > .grid {
   display: grid;
   grid-template-columns: 5rem 1fr;
-  grid-template-rows: repeat(6, 1.75rem);
+  grid-template-rows: repeat(6, 1.75rem) 20rem 1fr;
   row-gap: 0.625rem;
 }
 
+.detail-wrapper > .grid > label + div {
+  padding: 0.315rem;
+}
+
+.member-regist-wrapper {
+	width: 70%;
+	min-width: 31.25rem;
+	margin:0 auto;
+}
 /*  form styles */
 /* form.write-form: form인데 write-form이 클래스인 것 */
 form.write-form > .grid,
 form.modify-form > .grid {
   display: grid;
   grid-template-columns: 5rem 1fr;
-  grid-template-rows: repeat(2, 1.75rem) 20rem 1fr;
+  grid-template-rows: repeat(3, minmax(1.75rem,auto)) 20rem 1fr;
   row-gap: 0.625rem;
 }
 
@@ -45,12 +67,71 @@ form.modify-form > #content {
   height: 100%;
 }
 
+form.member-regist-form > .grid {
+	display: grid;
+	grid-template-columns: 8.5rem 1fr;
+	grid-template-rows: repeat(4, minmax(1.75rem, auto)) 1fr;
+	row-gap: 0.625rem; 
+}
+
+form.error {
+	color: #f00;
+	font-size: 0.825rem;
+	padding: 0.5rem;
+}
+
 /* button group styles */
-.grid > .btn-group {
+div.grid > .btn-group {
   grid-column: 1 / -1; /* 한줄을 다 합침 */
 }
 
 /* align styles */
+.left-align {
+	text-align: left;
+}
+.center-align {
+	text-align: center;
+}
 .right-align {
   text-align: right;
+}
+
+/* table grid styles*/
+table.grid {
+	display: block;
+	width: 100%;
+	border-collapse: collapse; /* 테이블의 gap을 없앤다.*/
+}
+
+table.grid > thead > tr {
+	background-color: #fff;
+}
+
+table.grid td,
+table.grid th {
+	border: 1px solid #eee;
+	padding: 0.625rem;
+}
+
+table.grid > tbody > tr:nth-child(2n-1) {
+	background-color: #eee6;
+}
+
+table.grid > tbody > tr:hover {
+	background-color: #f001;
+}
+
+table.grid > tbody td.empty {
+	text-align: center;
+	padding: 2rem  0;
+	font-weight: 900;
+	color: #ccc;
+}
+
+table.grid > tbody td.empty > td {
+	padding: 2rem 0;
+}
+
+table.grid > tbody td.empty:hover {
+    background-color: #eee6;
 }

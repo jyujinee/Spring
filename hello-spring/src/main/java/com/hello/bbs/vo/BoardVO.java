@@ -10,69 +10,17 @@ import com.hello.file.vo.FileVO;
  */
 public class BoardVO {
 
-    /**
-     * @ColumnName ID
-     * @ColumnType NUMBER(, )
-     * @ColumnComment null
-     */
     private int id;
-
-    /**
-     * @ColumnName SUBJECT
-     * @ColumnType VARCHAR2(1000)
-     * @ColumnComment null
-     */
     private String subject;
-
-    /**
-     * @ColumnName CONTENT
-     * @ColumnType VARCHAR2(4000)
-     * @ColumnComment null
-     */
     private String content;
-
-    /**
-     * @ColumnName EMAIL
-     * @ColumnType VARCHAR2(100)
-     * @ColumnComment null
-     */
     private String email;
-
-    /**
-     * @ColumnName VIEW_CNT
-     * @ColumnType NUMBER(, )
-     * @ColumnComment null
-     */
     private int viewCnt;
-
-    /**
-     * @ColumnName CRT_DT
-     * @ColumnType DATE
-     * @ColumnComment null
-     */
     private String crtDt;
-
-    /**
-     * @ColumnName MDFY_DT
-     * @ColumnType DATE
-     * @ColumnComment null
-     */
     private String mdfyDt;
-
-    /**
-     * @ColumnName FILE_NAME
-     * @ColumnType VARCHAR2(1000)
-     * @ColumnComment null
-     */
-    private String fileName;
-
-    /**
-     * @ColumnName ORIGIN_FILE_NAME
-     * @ColumnType VARCHAR2(1000)
-     * @ColumnComment null
-     */
-    private String originFileName;
     
+    private String fileName;
+    private String originFileName;
+  
     private List<FileVO> fileList;
 
     public List<FileVO> getFileList() {

@@ -14,15 +14,16 @@ app:
         enable: true # 서버에 업로드된 파일의 확장자를 가리는 설정
 
 spring:
-  suvlet:
+  servlet:
     multipart:
       enabled: true # 파일 업로드 설정
       max-request-size: 10MB # 사용자 한명당 업로드 할 수 있는 최대용량
       max-file-size: 100MB # 서버가 허용하는 최대 업로드 용량
-  mvc:
-    view:
-      prefix: /WEB-INF/views/
-      suffix: .jsp
+# 아래 설정은 WebConfig로 이동됨
+#  mvc:
+#    view:
+#      prefix: /WEB-INF/views/
+#      suffix: .jsp
   application:
     name: hello-spring
   datasource:
@@ -30,7 +31,7 @@ spring:
     driver-class-name: oracle.jdbc.driver.OracleDriver
     username: SPRING_BOOT
     password: 1234
-    
+
 mybatis:
   config-location: classpath:mybatis/mybatis-config.xml
   mapper-locations: classpath:com/hello/**/mapper/*Mapper.xml

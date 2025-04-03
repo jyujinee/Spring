@@ -4,7 +4,7 @@ pageEncoding="UTF-8"%>
 <html>
   <head>
     <meta charset="UTF-8" />
-    <title>Insert title here</title>
+    <title>게시글 조회 페이지</title>
     <link rel="stylesheet" href="/common.css" type="text/css" />
     <script src="/jquery-3.7.1.min.js" type="text/javascript"></script>
     <script src="/common.js" type="text/javascript"></script>
