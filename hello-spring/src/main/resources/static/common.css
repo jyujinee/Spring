@@ -6,15 +6,18 @@ body {
   margin: 0;
   color: #333;
 }
-/*link styles */
+
+/* link styles */
 a {
-	text-decoration: none;
-	color: #222;
-	font-weight: 600; /* 기본 굵기는 400 */
+    text-decoration: none;
+    color: #222;
+    font-weight: 600; /* 기본 굵기는 400 */
 }
+
 a:hover {
-	color: #666;
+    color: #666;
 }
+
 /* input styles */
 button,
 input,
@@ -26,12 +29,11 @@ textarea {
 
 input,
 textarea {
-	width: 100%;
+  width: 100%;
 }
 
 /* label styles */
 label {
-  padding-left: 0.625rem;
   padding: 0.312rem 0 0.312rem 0.625rem;
 }
 
@@ -48,36 +50,37 @@ label {
 }
 
 .member-regist-wrapper {
-	width: 70%;
-	min-width: 31.25rem;
-	margin:0 auto;
+    width: 70%;
+    min-width: 31.25rem;
+    margin: 0 auto;
 }
+
 /*  form styles */
 /* form.write-form: form인데 write-form이 클래스인 것 */
-form.write-form > .grid,
-form.modify-form > .grid {
+form.modify-form > .grid,
+form.write-form > .grid {
   display: grid;
   grid-template-columns: 5rem 1fr;
-  grid-template-rows: repeat(3, minmax(1.75rem,auto)) 20rem 1fr;
+  grid-template-rows: repeat(3, minmax(1.75rem, auto)) 20rem 1fr;
   row-gap: 0.625rem;
 }
 
-form.write-form #content,
-form.modify-form > #content {
+form.modify-form #content,
+form.write-form #content {
   height: 100%;
 }
 
 form.member-regist-form > .grid {
-	display: grid;
-	grid-template-columns: 8.5rem 1fr;
-	grid-template-rows: repeat(4, minmax(1.75rem, auto)) 1fr;
-	row-gap: 0.625rem; 
+    display: grid;
+    grid-template-columns: 8.5rem 1fr;
+    grid-template-rows: repeat(4, minmax(1.75rem, auto)) 1fr;
+    row-gap: 0.625rem;
 }
 
-form.error {
-	color: #f00;
-	font-size: 0.825rem;
-	padding: 0.5rem;
+form .error {
+    color: #ff3c34;
+    font-size: 0.825rem;
+    padding: 0.5rem;
 }
 
 /* button group styles */
@@ -87,51 +90,51 @@ div.grid > .btn-group {
 
 /* align styles */
 .left-align {
-	text-align: left;
+    text-align: left;
 }
+
 .center-align {
-	text-align: center;
+    text-align: center;
 }
+
 .right-align {
   text-align: right;
 }
 
-/* table grid styles*/
+/* table grid styles */
 table.grid {
-	display: block;
-	width: 100%;
-	border-collapse: collapse; /* 테이블의 gap을 없앤다.*/
+    width: 100%;
+    border-collapse: collapse;  /* 테이블의 gap을 없앤다.*/
 }
 
 table.grid > thead > tr {
-	background-color: #fff;
+    background-color: #FFF;
 }
 
 table.grid td,
 table.grid th {
-	border: 1px solid #eee;
-	padding: 0.625rem;
+    border: 1px solid #EEE;
+    padding: 0.625rem;
 }
 
-table.grid > tbody > tr:nth-child(2n-1) {
-	background-color: #eee6;
+table.grid > tbody > tr:nth-child(odd) {
+    background-color: #EEE6;
 }
 
 table.grid > tbody > tr:hover {
-	background-color: #f001;
+    background-color: #F001;
 }
 
-table.grid > tbody td.empty {
-	text-align: center;
-	padding: 2rem  0;
-	font-weight: 900;
-	color: #ccc;
+table.grid > tbody tr.empty {
+    text-align: center;
+    font-weight: 900;
+    color: #CCC;
 }
 
-table.grid > tbody td.empty > td {
-	padding: 2rem 0;
+table.grid > tbody tr.empty > td {
+    padding: 2rem 0;
 }
 
-table.grid > tbody td.empty:hover {
-    background-color: #eee6;
+table.grid > tbody tr.empty:hover {
+    background-color: #EEE6;
 }
