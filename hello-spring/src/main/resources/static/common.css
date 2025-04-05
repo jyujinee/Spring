@@ -8,6 +8,7 @@ body {
 }
 
 /* link styles */
+
 a {
     text-decoration: none;
     color: #222;
@@ -19,6 +20,7 @@ a:hover {
 }
 
 /* input styles */
+
 button,
 input,
 textarea {
@@ -38,6 +40,7 @@ label {
 }
 
 /* wrapper styles */
+
 .detail-wrapper > .grid {
   display: grid;
   grid-template-columns: 5rem 1fr;
@@ -55,13 +58,68 @@ label {
     margin: 0 auto;
 }
 
+.login-status-wrapper {
+	padding: 0.625rem;
+}
+
+.login-status-wrapper > ul {
+	margin: 0;
+	padding: 0;
+	display: flex;
+	gap: 0.315rem;
+	list-style-type: none;
+	justify-content: flex-end;
+}
+
+.my-page-wrapper {
+	width: 70%;
+	min-width: 31.25rem;
+	margin: 0 auto;
+}
+
+.my-page-wrapper > .my-page-content-wrapper {
+	display:flex;
+}
+
+.my-page-wrapper > .my-page-content-wrapper > .aside-menu {
+	display: flex;
+	flex-direction: column;
+	
+	flex-basis: 12.5rem;
+	flex-shrink: 1;
+	flex-grow: 0;
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+	gap: 0.625rem;
+}
+
+.my-page-wrapper > .my-page-content-wrapper > .aside-menu > .delete-me {
+	margin-top: 2rem;
+}
+
+.my-page-wrapper > .my-page-content-wrapper > .aside-menu > .delete-me > a {
+    color: #aaa;
+}
+
+.my-page-wrapper > .my-page-content-wrapper > .content {
+	flex-grow: 1;
+	padding: 0.625rem;
+	border: 1px solid #eee;
+	
+	display: grid;
+	grid-template-columns: 12rem 1fr;
+	grid-template-rows: repeat(5, 2rem);
+}
+
 /*  form styles */
 /* form.write-form: form인데 write-form이 클래스인 것 */
+
 form.modify-form > .grid,
 form.write-form > .grid {
   display: grid;
   grid-template-columns: 5rem 1fr;
-  grid-template-rows: repeat(3, minmax(1.75rem, auto)) 20rem 1fr;
+  grid-template-rows: repeat(2, minmax(1.75rem, auto)) 20rem 1fr;
   row-gap: 0.625rem;
 }
 
@@ -84,11 +142,13 @@ form .error {
 }
 
 /* button group styles */
+
 div.grid > .btn-group {
   grid-column: 1 / -1; /* 한줄을 다 합침 */
 }
 
 /* align styles */
+
 .left-align {
     text-align: left;
 }

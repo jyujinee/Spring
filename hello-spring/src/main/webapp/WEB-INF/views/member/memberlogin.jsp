@@ -7,11 +7,18 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>Login</title>
+		<link href="/css/common.css" rel="stylesheet" type="text/css">
+		<script src="/js/jquery-3.7.1.min.js" type="text/javascript"></script>
+		<script src="/js/common.js" type="text/javascript"></script>
 	</head>
+	
 	<body>
+	   <jsp:include page="/WEB-INF/views/member/loginstatus.jsp"/> 
+	   
 	   <h1>Login</h1>
 	   <form:form modelAttribute="memberLoginRequestVO" 
-	              method="POST" action="/member/login">
+	              class="login-form">
+	   <input type="hidden" class="next-url" name="nextUrl" />
 	   <div>
 	       <label for="email">이메일</label>
 	       <input type="email" name="email" id = "email" value="${userInput.email}"/>
@@ -29,7 +36,7 @@
 		    </div>
         </c:if>
         
-        <button type="submit">로그인</button>
+        <button type="submit" class="login-button">로그인</button>
     </form:form>
 
 	</body>

@@ -20,6 +20,11 @@ public interface MemberDao {
 	public int updateBlock(String email);
 
 	public int updateLoginSuccess(String email);
-
+	
+	// 로그아웃
+	public int updateLogoutStatus(String email);
+	
+	// 회원 삭제
+	public int deleteOneMemberBy(String email);
 
 }

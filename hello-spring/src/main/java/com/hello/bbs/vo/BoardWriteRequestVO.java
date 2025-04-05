@@ -15,9 +15,9 @@ public class BoardWriteRequestVO {
 	
 	@NotEmpty(message="내용은 필수 입력값입니다.")
 	private String content;
-	
-	@NotEmpty(message="이메일은 필수 입력값입니다.")
-	@Email(message="이메일 형식이 아닙니다.")
+
+//	@NotEmpty(message="이메일은 필수 입력값입니다.")
+//	@Email(message="이메일 형식이 아닙니다.")
 	private String email;
 	
 	// 스프링에서 file의 타입은 MultipartFile이다.

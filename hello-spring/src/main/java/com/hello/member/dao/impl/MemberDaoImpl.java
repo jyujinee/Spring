@@ -49,5 +49,15 @@ public class MemberDaoImpl extends SqlSessionDaoSupport implements MemberDao {
 		return this.getSqlSession().update(NAME_SPACE + "updateLoginSuccess", email);
 	}
 
+	@Override
+	public int updateLogoutStatus(String email) {
+		return this.getSqlSession().update(NAME_SPACE + "updateLogoutStatus", email);
+	}
+
+	@Override
+	public int deleteOneMemberBy(String email) {
+		return this.getSqlSession().delete(NAME_SPACE + "deleteOneMemberBy", email);
+	}
+
 
 }

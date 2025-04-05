@@ -9,12 +9,15 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.hello.bbs.service.BoardService;
+import com.hello.bbs.vo.BoardDeleteRequestVO;
 import com.hello.bbs.vo.BoardListVO;
 import com.hello.bbs.vo.BoardUpdateRequestVO;
 import com.hello.bbs.vo.BoardVO;
 import com.hello.bbs.vo.BoardWriteRequestVO;
+import com.hello.member.vo.MembersVO;
 
 import jakarta.validation.Valid;
 
@@ -43,7 +46,7 @@ public class BoardController {
     @PostMapping("/board/write")
     public String doBoardWrite(@Valid @ModelAttribute BoardWriteRequestVO boardWriteRequestVO,
     							BindingResult bindingResult,
-    							Model model) {
+    							Model model, @SessionAttribute("__LOGIN_USER__") MembersVO memberVO) {
     	// @Valid는 파라미터 입력값 검사를 요청한다, 바로 BindingResult가 와야하며
     	// BindingResult는 @Valid의 검사 결과를 받아온다.
     	// @ModelAttribute 스프링 form taglib를 사용할 떄만 작성
@@ -57,7 +60,8 @@ public class BoardController {
     		model.addAttribute("userWriteBoard", boardWriteRequestVO);
     		return "board/boardwrite";
     	}
-    	System.out.println(bindingResult.hasErrors());
+//    	System.out.println(bindingResult.hasErrors());
+    	boardWriteRequestVO.setEmail(memberVO.getEmail());
     	
     	boolean isCreated = this.boardService.createNewBoard(boardWriteRequestVO); //setter
     	
@@ -93,8 +97,14 @@ public class BoardController {
     }
     
     @GetMapping("/board/delete/{id}")
-    public String doDeleteOneBoard(@PathVariable int id) {
-    	boolean isSuccess = this.boardService.deleteOneBoard(id);
+    public String doDeleteOneBoard(@PathVariable int id,
+    								@SessionAttribute("__LOGIN_USER__") MembersVO memberVO) {
+    	
+    	BoardDeleteRequestVO boardDeleteRequestVO = new BoardDeleteRequestVO();
+    	boardDeleteRequestVO.setId(id);
+    	boardDeleteRequestVO.setEmail(memberVO.getEmail());
+    	
+    	boolean isSuccess = this.boardService.deleteOneBoard(boardDeleteRequestVO);
     	
     	if(isSuccess) {
     		return "redirect:/board/list";
@@ -104,9 +114,32 @@ public class BoardController {
     	return "redirect:/board/view/" + id;
     }
     
+   
+    // 수정된 게시글을 보여준다 -> View가 필요하기 때문에 model이 파라미터로 들어간다.
+    @GetMapping("/board/modify/{id}")
+    public String viewBoardUpdatePage(@PathVariable int id, Model model,
+    									@SessionAttribute("__LOGIN_USER__") MembersVO memberVO) {
+    	
+    	// 수정된 게시글을 보여주기 때문에 조회수 증가를 방지하기 위해 false를 준다.
+    	BoardVO boardVO = this.boardService.getOneBoard(id, false);
+    	
+    	// 같은 회원이 아니라면 modify 뷰가 보이면 안된다.
+    	if( !boardVO.getEmail().equals(memberVO.getEmail())) {
+    		return "redirect:/board/list";
+    	}
+    	
+    	model.addAttribute("boardVO", boardVO);
+    	return "board/boardmodify";
+    }
+    
     // 게시글을 수정해서 DB에 데이터를 전송한다.
     @PostMapping("/board/modify/{id}")
-    public String doUpdateOneBoard(@PathVariable int id, BoardUpdateRequestVO boardUpdateRequestVO) {
+    public String doUpdateOneBoard(@PathVariable int id, BoardUpdateRequestVO boardUpdateRequestVO,
+    								@SessionAttribute("__LOGIN_USER__") MembersVO memberVO) {
+    	
+    	// DB에서도 내가 쓴 글이 아니라면 수정하지 못하도록 한다.
+    	boardUpdateRequestVO.setEmail(memberVO.getEmail());
+
     	boolean isSuccess = this.boardService.updateOneBoard(boardUpdateRequestVO);
     	
     	if(isSuccess) {
@@ -114,16 +147,6 @@ public class BoardController {
     	}
     	
     	return "redirect:/board/list";
-    }
-    // 수정된 게시글을 보여준다 -> View가 필요하기 때문에 model이 파라미터로 들어간다.
-    @GetMapping("/board/modify/{id}")
-    public String viewBoardUpdatePage(@PathVariable int id, Model model) {
-    	
-    	// 수정된 게시글을 보여주기 때문에 조회수 증가를 방지하기 위해 false를 준다.
-    	BoardVO boardVO = this.boardService.getOneBoard(id, false);
-    	
-    	model.addAttribute("boardVO", boardVO);
-    	return "board/boardmodify";
     }
 
 }

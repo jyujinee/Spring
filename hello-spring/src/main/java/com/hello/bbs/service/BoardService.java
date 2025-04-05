@@ -1,5 +1,6 @@
 package com.hello.bbs.service;
 
+import com.hello.bbs.vo.BoardDeleteRequestVO;
 import com.hello.bbs.vo.BoardListVO;
 import com.hello.bbs.vo.BoardUpdateRequestVO;
 import com.hello.bbs.vo.BoardVO;
@@ -16,7 +17,7 @@ public interface BoardService {
 //	public BoardVO getOneBoard(int id);
 	public BoardVO getOneBoard(int id, boolean isIncrease);
 
-	public boolean deleteOneBoard(int id);
+	public boolean deleteOneBoard(BoardDeleteRequestVO boardDeleteRequestVO);
 
 	public boolean updateOneBoard(BoardUpdateRequestVO boardUpdateRequestVO);
 

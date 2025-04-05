@@ -2,9 +2,12 @@ package com.hello.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import com.hello.beans.interceptors.CheckSessionInterceptor;
 
 //@Configurable // Bean을 매번 생성하고 쓰임을 다하면 사라진다 (Prototype scope)
 @Configuration // Bean을 한번만 생성한다. 대부분 configuration을 사용한다. (Singletone scope)
@@ -34,5 +37,22 @@ public class WebConfig implements WebMvcConfigurer{
        registry.addResourceHandler("/css/**")
        .addResourceLocations("classpath:/static/");
    }
+   
+   /**
+    * Interceptors를 추가
+    */
+   @Override
+   public void addInterceptors(InterceptorRegistry registry) {
+	  registry.addInterceptor(new CheckSessionInterceptor())
+	  		  .addPathPatterns("/**") // 모든 URL을 검사한다. (세션이 있는 것만)
+	  		  .excludePathPatterns("/member/regist", 
+	  				  				"/member/available",
+	  				  				"/member/login",
+	  				  				"/member/*-delete-me",
+	  				  				"/board/list",
+	  				  				"/css/**",
+	  				  				"/js/**" ); // (세션 체크가 필요없는 URL은 제외한다.)
+   }
+
 
 }

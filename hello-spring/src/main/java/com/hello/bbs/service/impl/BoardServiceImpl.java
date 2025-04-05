@@ -4,10 +4,12 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.hello.bbs.dao.BoardDao;
 import com.hello.bbs.service.BoardService;
+import com.hello.bbs.vo.BoardDeleteRequestVO;
 import com.hello.bbs.vo.BoardListVO;
 import com.hello.bbs.vo.BoardUpdateRequestVO;
 import com.hello.bbs.vo.BoardVO;
@@ -27,6 +29,8 @@ public class BoardServiceImpl implements BoardService {
     @Autowired
     private FileDao fileDao;
     
+    // select만 수행하는 경우 (readOnly = true)를 붙인다. update, delete, insert는 에러발생
+    @Transactional(readOnly = true)
 	@Override
 	public BoardListVO getBoardList() {
 		int count = this.boardDao.selectBoardAllCount();
@@ -38,15 +42,18 @@ public class BoardServiceImpl implements BoardService {
 		return boardListVO;
 	}
 	
+    // transactional: insert수행 중 예외가 발생하면, 자동으로 롤백함
+    @Transactional
 	@Override
 	public boolean createNewBoard(BoardWriteRequestVO boardWriteRequestVO) {
 		
 		int insertCount = this.boardDao.insertNewBoard(boardWriteRequestVO);
-		
+		System.out.println(insertCount);
 		// if insertCount > 0 then file upload
 		if(insertCount > 0) {
 			
 			for(MultipartFile file: boardWriteRequestVO.getFile()) {
+				System.out.println(boardWriteRequestVO.getFile());
 				StoredFile storedFile = this.fileHandler.store(file);
 				// NullpointerException을 확인해야한다. 
 				// storedFile null이 되는 경우를 방어 코딩 해야한다.
@@ -74,7 +81,8 @@ public class BoardServiceImpl implements BoardService {
 		}
 		return insertCount > 0;
 	}
-
+    
+    @Transactional
 	@Override
 	public BoardVO getOneBoard(int id, boolean isIncrease) {
 		
@@ -106,15 +114,17 @@ public class BoardServiceImpl implements BoardService {
 		return boardVO;
 	}
 
+    @Transactional
 	@Override
-	public boolean deleteOneBoard(int id) {
-		int deleteCount = this.boardDao.deleteOneBoard(id);
+	public boolean deleteOneBoard(BoardDeleteRequestVO boardDeleteRequestVO) {
+		int deleteCount = this.boardDao.deleteOneBoard(boardDeleteRequestVO);
 		if(deleteCount == 0) {
-			throw new IllegalArgumentException(id + "는 존재하지 않는 게시글 번호입니다.");
+			throw new IllegalArgumentException(boardDeleteRequestVO.getId() + "는 존재하지 않는 게시글 번호입니다.");
 		}
 		return deleteCount > 0;
 	}
 
+    @Transactional
 	@Override
 	public boolean updateOneBoard(BoardUpdateRequestVO boardUpdateRequestVO) {
 		int updateCount = this.boardDao.updateOneBoard(boardUpdateRequestVO);

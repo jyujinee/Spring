@@ -25,6 +25,14 @@ pageEncoding="UTF-8"%>
 <!--    <h1>게시글 목록</h1>
     <p>게시글의 수: ${boardList.boardCnt}</p>
     <p>조회한 게시글 목록의 수: ${boardList.getBoardList().size()}</p> -->
+
+    <%-- Controller Endpoint를 해당 위치에 보여주는 방법
+    1. c import --%>
+    <%-- <c:import url="/member/loginstatus"/> --%>
+    <%--2.  jsp를 보여주기--%>
+    <jsp:include page="/WEB-INF/views/member/loginstatus.jsp"/> 
+    
+       
     <div class="right-align">총 ${boardList.boardCnt}건의 게시글이 검색되었습니다.</div>
 
     <table class="grid">
@@ -40,7 +48,7 @@ pageEncoding="UTF-8"%>
             <tr>
                 <th>번호</th>
                 <th>제목</th>
-                <th>이메일</th>
+                <th>이름</th>
                 <th>조회수</th>
                 <th>등록일</th>
                 <th>수정일</th>
@@ -56,7 +64,7 @@ pageEncoding="UTF-8"%>
 		                <td>
 		                    <a href="/board/view/${board.id}">${board.subject}</a>
 		                </td>    
-		                <td>${board.email}</td>
+		                <td>${board.memberVO.name}</td>
 		                <td class="center-align">${board.viewCnt}</td>
 		                <td class="center-align">${board.crtDt}</td>
 		                <td class="center-align">${board.mdfyDt}</td>
@@ -71,6 +79,8 @@ pageEncoding="UTF-8"%>
         </c:choose>
         </tbody>
     </table>
-    <a href="/board/write">게시글 등록하기</a>
+    <c:if test="${not empty sessionScope.__LOGIN_USER__}">
+        <a href="/board/write">게시글 등록하기</a>
+    </c:if>
   </body>
 </html>

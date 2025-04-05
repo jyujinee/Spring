@@ -2,6 +2,7 @@ package com.hello.member.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.hello.beans.Sha;
 import com.hello.member.dao.MemberDao;
@@ -18,6 +19,7 @@ public class MemberServiceImpl implements MemberService {
     @Autowired
     private Sha sha;
 
+    @Transactional
 	@Override
 	public boolean createNewMember(MemberRegistRequestVO memberRegistRequestVO) {
 		
@@ -52,6 +54,7 @@ public class MemberServiceImpl implements MemberService {
 		return this.memberDao.insertNewMember(memberRegistRequestVO) > 0;
 	}
 
+    @Transactional(readOnly = true)
 	@Override
 	public boolean checkDuplicateEmail(String email) {
 		// email이 1이면, 이미 서버에 있는 이메일이다.
@@ -106,5 +109,20 @@ public class MemberServiceImpl implements MemberService {
 		// 9. 조회된 사용자의 정보를 반환시킨다.
 		return memberVO;
 	}
+
+	// 로그아웃
+	@Transactional
+	@Override
+	public boolean doLogout(String email) {
+		return this.memberDao.updateLogoutStatus(email) > 0;
+	}
+
+	// 회원삭제
+	@Transactional
+	@Override
+	public boolean doDeleteMe(String email) {
+		return this.memberDao.deleteOneMemberBy(email) > 0;
+	}
+	
 
 }

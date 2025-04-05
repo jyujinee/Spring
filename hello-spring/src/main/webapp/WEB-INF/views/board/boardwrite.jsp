@@ -12,10 +12,13 @@ pageEncoding="UTF-8"%>
   <script src="/js/jquery-3.7.1.min.js" type="text/javascript"></script>
   <script src="/js/common.js" type="text/javascript"></script>
   <body>
+  <jsp:include page="/WEB-INF/views/member/loginstatus.jsp"/> 
+  
     <h1>게시글 작성</h1>
     <!-- 폼에 파일이 포함되면 폼 태그에 enctype을 작성해줘야한다. -->
-    <!-- enctype="multipart/form-data" 을 작성해야 데이터 전송 가능 -->
-    <form:form modelAttribute="boardWriteRequestVO" class="write-form" enctype="multipart/form-data">
+    <!-- enctype="multipart/form-data" 을 반드시 작성해야 서버에 데이터 전송 가능 -->
+    <form:form modelAttribute="boardWriteRequestVO" class="write-form" 
+               enctype="multipart/form-data">
       <div class="grid">
       <label for="subject">제목</label>
       <div>
@@ -24,12 +27,13 @@ pageEncoding="UTF-8"%>
         <form:errors path="subject" element="div" cssClass="error"/>
       </div>
       
-	    <label for="email">이메일</label>
+	    <%-- <label for="email">이메일</label>
         <div>
 	        <input type="text" id="email" name="email" value="${userWriteBoard.email}" required />
 	        <form:errors path="email" element="div" cssClass="error"/>
         </div>
-
+ --%>
+ 
 	    <label for="file">첨부파일</label>
         <div>
           <!-- input 타입 파일은 value 속성이 없다.

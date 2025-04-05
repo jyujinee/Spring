@@ -14,6 +14,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <id column="ID" property="id"/>
     <!-- <result column="SUBJECT" property="subject"/> -->
     
+     <association property="memberVO"
+                 javaType="com.hello.member.vo.MembersVO"
+                 autoMapping="true">
+        <id column="EMAIL" property="email"></id>
+    </association>
+    
     <!-- 리스트를 넣어주는 태그 
     <association property=""></association>: 반대의 경우인 BoardVO를 가져오는 경우(출처를 알고 싶기 때문에 사용)
     <collection property=""></collection>: 리스트를 가져오는 List<FileVO>인 경우(1:N) -->
@@ -22,29 +28,31 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                 autoMapping="true">
         <id column="FL_ID" property="flId"></id>
         <!-- <result column="FL_NM" property="flNm"/> -->
-    </collection>
-                
+    </collection>            
    </resultMap>
    
    
    <select id="selectBoardAllCount" resultType="_int">
-   SELECT COUNT(1)
-   FROM BOARD
+	  SELECT COUNT(ID)
+	  FROM BOARD
+	 WHERE EMAIL IN (SELECT EMAIL
+	                   FROM MEMBERS)
    </select>
 
    <select id="selectAllBoard"
-           resultType="com.hello.bbs.vo.BoardVO">
-    SELECT ID
-         , SUBJECT
-         , CONTENT
-         , EMAIL
-         , VIEW_CNT
-         , TO_CHAR(CRT_DT, 'YYYY-MM-DD') CRT_DT
-         , TO_CHAR(MDFY_DT, 'YYYY-MM-DD') MDFY_DT
-         , FILE_NAME
-         , ORIGIN_FILE_NAME
-      FROM BOARD
-     ORDER BY ID DESC
+           resultMap="BoardVOMap">
+	SELECT B.ID
+	     , B.SUBJECT
+	     , B.CONTENT
+	     , B.EMAIL
+	     , B.VIEW_CNT
+	     , TO_CHAR(B.CRT_DT, 'YYYY-MM-DD') CRT_DT
+	     , TO_CHAR(B.MDFY_DT, 'YYYY-MM-DD') MDFY_DT
+	     , M.NAME
+	  FROM BOARD B
+	 INNER JOIN MEMBERS M
+	    ON B.EMAIL = M.EMAIL
+	 ORDER BY B.ID DESC
    </select>
    
 
@@ -84,22 +92,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
    <select id="selectOneBoard"
            parameterType="_int"
            resultMap="BoardVOMap">
-    SELECT B.ID
-         , B.SUBJECT
-         , B.CONTENT
-         , B.EMAIL
-         , B.VIEW_CNT
-         , TO_CHAR(B.CRT_DT, 'YYYY-MM-DD') AS CRT_DT
-         , TO_CHAR(B.MDFY_DT, 'YYYY-MM-DD') AS MDFY_DT
-         , F.FL_ID
-         , F.FL_NM
-         , F.OBFS_FL_NM
-         , F.OBFS_PTH
-         , F.FL_SZ
-      FROM BOARD B
-      LEFT OUTER JOIN "FILE" F
-        ON B.ID = F.ID
-     WHERE B.ID = #{_parameter]}
+SELECT B.ID
+       , B.SUBJECT
+       , B.CONTENT
+       , B.EMAIL
+       , B.VIEW_CNT
+       , TO_CHAR(B.CRT_DT, 'YYYY-MM-DD') CRT_DT
+       , TO_CHAR(B.MDFY_DT, 'YYYY-MM-DD') MDFY_DT
+       , F.FL_ID
+       , F.FL_NM
+       , F.OBFS_FL_NM
+       , F.OBFS_PTH
+       , F.FL_SZ
+       , M.NAME
+    FROM BOARD B
+    LEFT OUTER JOIN "FILE" F
+      ON B.ID = F.ID
+   INNER JOIN MEMBERS M
+      ON B.EMAIL = M.EMAIL
+   WHERE B.ID = #{_parameter}
    </select>
    
    <update id = "updateViewCountBy"
@@ -110,10 +121,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
    </update>
    
    <delete id = "deleteOneBoard"
-           parameterType="_int">
+           parameterType="com.hello.bbs.vo.BoardDeleteRequestVO">
     DELETE 
       FROM BOARD
-     WHERE ID = #{_parameter}
+     WHERE ID = #{id}
+       AND EMAIL = #{email}
    </delete>
    
    <update id = "updateOneBoard"
@@ -121,9 +133,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     UPDATE BOARD
        SET SUBJECT = #{subject}
          , CONTENT = #{content}
-         , EMAIL = #{email}
          , MDFY_DT = SYSDATE
      WHERE ID = #{id}
+       AND EMAIL = #{email}
    </update>
    
 </mapper>

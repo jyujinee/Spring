@@ -174,7 +174,7 @@ $().ready(function () {
         });
         
         $(".member-regist-wrapper").find("input")
-        .on("change", function(){
+        .on("keyup", function(){
             var hasErrors = $(".member-regist-wrapper").find(".error").length > 0;
 			hasErrors = hasErrors || $("input:invalid").length > 0;
             
@@ -184,6 +184,27 @@ $().ready(function () {
             else {
                 $(".member-regist-wrapper").find(".regist-button").removeAttr("disabled"); 
             }
+        });
+        
+        /* 로그인 버튼 이벤트 */
+        $(".login-form").find(".login-button")
+        .on("click", function() {
+            
+            /* 현재 URL을 가져옴 */
+            var nextUrl = location.pathname;
+            
+            /* 로그인 버튼을 눌러서 로그인 중이라면 */
+            if(nextUrl == "/member/login") {
+                nextUrl = "/board/list";
+            }
+            
+            $(".login-form").find(".next-url").val(nextUrl);
+            $(".login-form").attr({
+                "action" : "/member/login",
+                "method" : "POST"
+            })
+            .submit();
+            
         });
 
 });

@@ -10,6 +10,7 @@ pageEncoding="UTF-8"%>
   <script src="/js/jquery-3.7.1.min.js" type="text/javascript"></script>
   <script src="/js/common.js" type="text/javascript"></script>
   <body>
+  <jsp:include page="/WEB-INF/views/member/loginstatus.jsp"/> 
     <h1>게시글 수정</h1>
     <form class="modify-form">
       <input type="hidden" name="id" value="${boardVO.id}" />
@@ -20,15 +21,6 @@ pageEncoding="UTF-8"%>
           type="text"
           id="subject"
           name="subject"
-          value="${boardVO.email}"
-          required
-        />
-
-        <label for="email">이메일</label>
-        <input
-          type="text"
-          id="email"
-          name="email"
           value="${boardVO.email}"
           required
         />

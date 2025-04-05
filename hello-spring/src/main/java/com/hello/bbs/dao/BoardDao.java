@@ -2,6 +2,7 @@ package com.hello.bbs.dao;
 
 import java.util.List;
 
+import com.hello.bbs.vo.BoardDeleteRequestVO;
 import com.hello.bbs.vo.BoardUpdateRequestVO;
 import com.hello.bbs.vo.BoardVO;
 import com.hello.bbs.vo.BoardWriteRequestVO;
@@ -40,7 +41,7 @@ public interface BoardDao {
 	 * @param id 게시글 ID
 	 * @return DB에 delete한 게시글의 수 
 	 */
-	public int deleteOneBoard(int id);
+	public int deleteOneBoard(BoardDeleteRequestVO boardDeleteRequestVO);
 	
 	/*
 	 * DB에 게시글의 정보를 수정한다.

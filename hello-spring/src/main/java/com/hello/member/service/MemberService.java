@@ -14,5 +14,10 @@ public interface MemberService {
 	
 	// 타입이 불린이 아닌건 컨트롤에서 설명
 	public MembersVO doLogin(MemberLoginRequestVO memberLoginRequestVO);
+	
+	// 로그아웃
+	public boolean doLogout(String email);
 
+	// 회원삭제
+	public boolean doDeleteMe(String email);
 }

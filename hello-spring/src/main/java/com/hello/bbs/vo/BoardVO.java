@@ -3,6 +3,7 @@ package com.hello.bbs.vo;
 import java.util.List;
 
 import com.hello.file.vo.FileVO;
+import com.hello.member.vo.MembersVO;
 
 /**
  * @TableName BOARD
@@ -22,8 +23,18 @@ public class BoardVO {
     private String originFileName;
   
     private List<FileVO> fileList;
+    
+    private MembersVO memberVO;
 
-    public List<FileVO> getFileList() {
+    public MembersVO getMemberVO() {
+		return memberVO;
+	}
+
+	public void setMemberVO(MembersVO memberVO) {
+		this.memberVO = memberVO;
+	}
+
+	public List<FileVO> getFileList() {
 		return fileList;
 	}
 

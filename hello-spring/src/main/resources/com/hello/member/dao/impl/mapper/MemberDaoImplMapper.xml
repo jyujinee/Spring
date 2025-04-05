@@ -85,4 +85,18 @@
          , LOGIN_YN = 'Y'
      WHERE EMAIL = #{_parameter}
     </update>
+    
+    <update id="updateLogoutStatus"
+            parameterType="string">
+    UPDATE MEMBERS
+       SET LOGIN_YN = 'Y'
+     WHERE EMAIL = #{_parameter}
+    </update>
+    
+    <delete id="deleteOneMemberBy"
+            parameterType="string">
+    DELETE
+      FROM MEMBERS
+     WHERE EMAIL = #{_parameter}
+    </delete>
 </mapper>
