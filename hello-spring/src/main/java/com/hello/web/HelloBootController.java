@@ -1,17 +1,27 @@
 package com.hello.web;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.hello.bbs.web.BoardController;
+
 //@Controller를 작성하지 않으면 end-point가 만들어지지 않는다!
 @Controller
 public class HelloBootController {
 	
+	// 로그를 쓰기 위한 설정
+	// Logger
+	private static final Logger LOGGER = LoggerFactory.getLogger(BoardController.class);
+
+	
 	public HelloBootController() {
-		System.out.println("Hello Boot Controller Instance.");
+//		System.out.println("Hello Boot Controller Instance.");
+		LOGGER.info("Hello Boot Controller Instance.");
 	}
  	
 //	@GetMapping("/hello")

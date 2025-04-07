@@ -1,5 +1,8 @@
 package com.hello.bbs.web;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,12 +26,23 @@ import jakarta.validation.Valid;
 
 @Controller
 public class BoardController {
+	
+	// 로그를 쓰기 위한 설정
+	// Logger
+	private static final Logger LOGGER = LoggerFactory.getLogger(BoardController.class);
 
     @Autowired
     private BoardService boardService;
     
     @GetMapping("/board/list") // 페이지 주소(URL)에 접속하면, 아래의 메소드에 맵핑해준다.
     public String viewBoardList(Model model) { // 데이터를 전송해주는 모델
+    	
+    	// 로그 출력
+    	LOGGER.trace("/board/list 를 방문했습니다.");
+    	LOGGER.debug("/board/list 를 방문했습니다.");
+    	LOGGER.info("/board/list 를 방문했습니다.");
+    	LOGGER.warn("/board/list 를 방문했습니다.");
+    	LOGGER.error("/board/list 를 방문했습니다.");
     	
     	BoardListVO boardListVO = this.boardService.getBoardList(); //getter
     	model.addAttribute("boardList",boardListVO);

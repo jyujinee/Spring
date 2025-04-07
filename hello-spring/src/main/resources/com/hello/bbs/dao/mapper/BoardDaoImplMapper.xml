@@ -8,10 +8,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
    <resultMap type="com.hello.bbs.vo.BoardVO" 
               id="BoardVOMap"
               autoMapping="true">
+              
     <!-- 컬럼과 맵핑되는 멤버변수의 이름을 연결시킨다. -->
     <!-- <id /> 조회한 컬럼이 PK인 경우 ID 태그를 사용한다. -->
     <!-- <result /> 조회한 컬럼이 일반 컬럼일 경우 result 태그를 사용한다. -->
     <id column="ID" property="id"/>
+    
     <!-- <result column="SUBJECT" property="subject"/> -->
     
      <association property="memberVO"

@@ -11,6 +11,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.context.annotation.Import;
 
 import com.hello.bbs.dao.BoardDao;
+import com.hello.bbs.vo.BoardDeleteRequestVO;
 import com.hello.bbs.vo.BoardUpdateRequestVO;
 import com.hello.bbs.vo.BoardVO;
 import com.hello.bbs.vo.BoardWriteRequestVO;
@@ -75,8 +76,11 @@ public class BoardDaoImplTest {
 	
 	@Test
 	public void testDeleteOne() {
-		int deleteCount = this.boardDaoImpl.deleteOneBoard(26);
-		Assertions.assertTrue(deleteCount == 1);
+		BoardDeleteRequestVO bdrv = new BoardDeleteRequestVO();
+		bdrv.setId(4);
+		bdrv.setEmail("test01@gmail.com");
+		int deletedCount = this.boardDaoImpl.deleteOneBoard(bdrv);
+		Assertions.assertTrue(deletedCount == 1);
 	}
 	
 	@Test

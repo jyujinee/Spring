@@ -22,6 +22,10 @@ public class CheckSessionInterceptor implements HandlerInterceptor{
 		
 		// 세션이 없다면 로그인 페이지를 노출시킨다.
 		if( memberVO == null) {
+			
+			// TO-DO: ajax call 일때는 "Access Denied" 메시지를 브라우저에게 보내도록 하기!
+			
+			
 			// 스프링이 아닌 HttpServlet에서 가져온다. -> View Resolver가 없기 때문에 모든 경로를 작성해야한다.
 			String path = "/WEB-INF/views/member/memberlogin.jsp";
 			RequestDispatcher requestDispatcher = request.getRequestDispatcher(path);

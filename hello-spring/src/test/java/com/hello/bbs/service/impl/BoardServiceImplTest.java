@@ -14,6 +14,7 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import com.hello.bbs.dao.BoardDao;
 import com.hello.bbs.dao.impl.BoardDaoImpl;
 import com.hello.bbs.service.BoardService;
+import com.hello.bbs.vo.BoardDeleteRequestVO;
 import com.hello.bbs.vo.BoardListVO;
 import com.hello.bbs.vo.BoardUpdateRequestVO;
 import com.hello.bbs.vo.BoardVO;
@@ -117,19 +118,26 @@ public class BoardServiceImplTest {
 	
 	@Test
 	public void deleteBoard() {
-		BDDMockito.given(this.boardDao.deleteOneBoard(1))
-				  .willReturn(1);
+		BoardDeleteRequestVO bdrv = new BoardDeleteRequestVO();
+		bdrv.setId(1);
+		bdrv.setEmail("test01@gmail.com");
 		
-		boolean isDeleted = this.boardService.deleteOneBoard(1);
+		BDDMockito.given(this.boardDao.deleteOneBoard(bdrv))
+				  .willReturn(1);
+		boolean isDeleted = this.boardService.deleteOneBoard(bdrv);
 		Assertions.assertTrue(isDeleted);
 	}
 	
 	@Test
 	public void deleteBoardFail() {
-		BDDMockito.given(this.boardDao.deleteOneBoard(1))
+		BoardDeleteRequestVO bdrv = new BoardDeleteRequestVO();
+		bdrv.setId(1_000_000_000);
+		bdrv.setEmail("test01@gmail.com");
+		
+		BDDMockito.given(this.boardDao.deleteOneBoard(bdrv))
 				  .willReturn(0);
 		
-		String message = BDDAssertions.catchThrowable( () -> this.boardService.deleteOneBoard(1) ).getMessage();
+		String message = BDDAssertions.catchThrowable( () -> this.boardService.deleteOneBoard(bdrv) ).getMessage();
 		Assertions.assertEquals(1 + "는 존재하지 않는 게시글 번호입니다.", message);
 	}
 	

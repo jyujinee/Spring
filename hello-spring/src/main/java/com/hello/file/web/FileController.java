@@ -16,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import com.hello.exceptions.NotExistsException;
 import com.hello.file.service.FileService;
 import com.hello.file.vo.FileDownloadRequestVO;
 import com.hello.file.vo.FileVO;
@@ -34,6 +35,10 @@ public class FileController {
     	
     	FileVO fileVO = this.fileService.getOneFile(fileDownloadRequestVO);
     	
+    	if(fileVO == null) {
+    		throw new NotExistsException();
+    	}
+    	
     	// fileVO.getObfsFlPth()를 인스턴스로 만들어서 다운로드
     	File downloadFile = new File(fileVO.getObfsPth());
     	
@@ -48,8 +53,10 @@ public class FileController {
     	InputStreamResource resource = null;
     	try {
 			resource = new InputStreamResource(new FileInputStream(downloadFile));
-		} catch (FileNotFoundException e) {
-			throw new IllegalArgumentException("파일이 없습니다.");
+		
+    	} catch (FileNotFoundException e) {
+//			throw new IllegalArgumentException("파일이 없습니다.");
+			throw new NotExistsException();
 		}
     	
     	// Body 생성해서 다운로드 시키기

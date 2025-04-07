@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- logback 설정
+scan: 로그백 설정 파일 변경 검사 여부
+scanPeriod: 로그백 파일을 몇초 주기로 변경 검사를 시행할 것인지 설정 -->
+<configuration scan="true" scanPeriod="30 seconds">
+
+<!-- appender: 실행 이력을 쌓는 설정
+class: 실행 이력을 쌓는 방식 선택, "ch.qos.logback.core.ConsoleAppender"은 콘솔에 로그를 출력한다. -->
+  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <!-- encoders are assigned the type
+         ch.qos.logback.classic.encoder.PatternLayoutEncoder by default -->
+    <encoder>
+      <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} -%kvp- %msg%n</pattern>
+    </encoder>
+  </appender>
+  
+  <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>C:/applications/logs/hello-spring.log</file>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <!-- daily rollover -->
+      <fileNamePattern>C:/applications/logs/hello-spring-%d{yyyy-MM-dd-hh-mm}.log</fileNamePattern>
+
+      <!-- keep 30 days' worth of history capped at 3GB total size -->
+      <maxHistory>30</maxHistory>
+      <totalSizeCap>3GB</totalSizeCap>
+
+    </rollingPolicy>
+
+    <encoder>
+      <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} -%kvp- %msg%n</pattern>
+    </encoder>
+  </appender> 
+
+  <root level="debug">
+    <appender-ref ref="STDOUT" />
+    <appender-ref ref="FILE" />
+  </root>
+</configuration>
+

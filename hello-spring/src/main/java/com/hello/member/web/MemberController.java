@@ -3,6 +3,8 @@ package com.hello.member.web;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
+import com.hello.bbs.web.BoardController;
 import com.hello.common.vo.AjaxResponse;
 import com.hello.member.service.MemberService;
 import com.hello.member.vo.MemberLoginRequestVO;
@@ -27,6 +30,10 @@ import jakarta.validation.Valid;
 
 @Controller
 public class MemberController {
+	
+	// 로그를 쓰기 위한 설정
+	// Logger
+	private static final Logger LOGGER = LoggerFactory.getLogger(BoardController.class);
 
     @Autowired
     private MemberService memberService;
@@ -101,12 +108,16 @@ public class MemberController {
     	
 		// 사용자의 IP를 가져올때 HttpServeltRequest가 사용.
 			String userIp = request.getRemoteAddr();
-			System.out.println("IP: " + userIp);
+//			System.out.println("IP: " + userIp);
+			LOGGER.debug("IP: " + userIp);
+			
     	if(bindingResult.hasErrors()) {
     		model.addAttribute("userInput", memberLoginRequestVO);
     		return "member/memberlogin";
     	}
-    	try {
+    	
+//    	 @ControllerAdive에서 모든 예외처리를 한다! - GlobalExceptionHandler
+//    	try {
     		MembersVO memberVO = this.memberService.doLogin(memberLoginRequestVO);
     		// 사이트에 접속했을 때 발급받은 세션은 폐기시킨다. (로그아웃)
     		session.invalidate();
@@ -117,12 +128,13 @@ public class MemberController {
     		// 서버가 세션에 회원 정보를 기억(기록)한다.
     		// 해당 사용자의 고유한 세션 아이디를 브라우저에게 쿠키를 보내준다.
     		session.setAttribute("__LOGIN_USER__", memberVO);
-    	}
-    	catch(IllegalArgumentException iae) {
-			model.addAttribute("userInput", memberLoginRequestVO);
-    		model.addAttribute("errorMessage", iae.getMessage());
-    		return "member/memberlogin";
-    	}
+//    	}
+    	
+//    	catch(IllegalArgumentException iae) {
+//			model.addAttribute("userInput", memberLoginRequestVO);
+//    		model.addAttribute("errorMessage", iae.getMessage());
+//    		return "member/memberlogin";
+//    	}
     	// 에러가 안나면, 로그인 성공
     	return "redirect:" + nextUrl;
     }
@@ -171,8 +183,4 @@ public class MemberController {
     	return "member/"+ result + "deleteme";
     }
     
-   
-    
-    
-
 }

@@ -16,6 +16,7 @@ import com.hello.bbs.vo.BoardVO;
 import com.hello.bbs.vo.BoardWriteRequestVO;
 import com.hello.beans.FileHandler;
 import com.hello.beans.FileHandler.StoredFile;
+import com.hello.exceptions.PageNotFoundException;
 import com.hello.file.dao.FileDao;
 import com.hello.file.vo.FileVO;
 
@@ -99,7 +100,8 @@ public class BoardServiceImpl implements BoardService {
 			
 			// 게시글 조회수 증가 방지
 			if(updatedCount == 0) {
-				throw new IllegalArgumentException(id + "는 존재하지 않는 게시글 번호입니다.");		
+//				throw new IllegalArgumentException(id + "는 존재하지 않는 게시글 번호입니다.");		
+				throw new PageNotFoundException(id);
 			}
 		}
 		
@@ -108,8 +110,9 @@ public class BoardServiceImpl implements BoardService {
 		BoardVO boardVO = this.boardDao.selectOneBoard(id);
 		
 		if (boardVO == null) {
-			throw new IllegalArgumentException(id + "는 존재하지 않는 게시글 번호입니다.");
-		}// 여기 나중에 보기!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//			throw new IllegalArgumentException(id + "는 존재하지 않는 게시글 번호입니다.");
+			throw new PageNotFoundException(id);
+		}
 		// 게시글 반환.
 		return boardVO;
 	}
@@ -119,7 +122,8 @@ public class BoardServiceImpl implements BoardService {
 	public boolean deleteOneBoard(BoardDeleteRequestVO boardDeleteRequestVO) {
 		int deleteCount = this.boardDao.deleteOneBoard(boardDeleteRequestVO);
 		if(deleteCount == 0) {
-			throw new IllegalArgumentException(boardDeleteRequestVO.getId() + "는 존재하지 않는 게시글 번호입니다.");
+//			throw new IllegalArgumentException(boardDeleteRequestVO.getId() + "는 존재하지 않는 게시글 번호입니다.");
+			throw new PageNotFoundException(boardDeleteRequestVO.getId());
 		}
 		return deleteCount > 0;
 	}

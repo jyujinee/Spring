@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.hello.beans.Sha;
+import com.hello.exceptions.MemberLoginException;
 import com.hello.member.dao.MemberDao;
 import com.hello.member.service.MemberService;
 import com.hello.member.vo.MemberLoginRequestVO;
@@ -69,14 +70,16 @@ public class MemberServiceImpl implements MemberService {
 		// 1-1. 회원의 정보가 null이면 사용자에게 예외를 던져버린다.
 		//		"비밀번호 또는 이메일을 잘못 입력했습니다. 확인 후 다시 시도해주세요."
 		if(memberVO == null) {
-			throw new IllegalArgumentException("비밀번호 또는 이메일을 잘못 입력했습니다. 확인 후 다시 시도해주세요.");
+//			throw new IllegalArgumentException("비밀번호 또는 이메일을 잘못 입력했습니다. 확인 후 다시 시도해주세요.");
+			throw new MemberLoginException(memberLoginRequestVO); // @ControllerAdive에서 모든 예외처리를 한다! 
 		}
 
 		// 2. 회원의 정보 중 BLOCK_YN = Y라면 예외를 던져버린다.
 		//		"비밀번호가 n회 틀려 계정 접근이 제한되었습니다. 관리자에게 문의하세요."
 		if(memberVO.getBlockYn().equals("Y")) {
-			throw new IllegalArgumentException("비밀번호가 " + memberVO.getLoginFailCount()
-										+"회 틀려 계정 접근이 제한되었습니다. 관리자에게 문의하세요.");
+//			throw new IllegalArgumentException("비밀번호가 " + memberVO.getLoginFailCount()
+//										+"회 틀려 계정 접근이 제한되었습니다. 관리자에게 문의하세요.");
+			throw new MemberLoginException(memberLoginRequestVO);
 		}
 		
 		// 3. SALT를 이용해 memberLoginRequestVO의 password를 암호화한다.
@@ -95,7 +98,8 @@ public class MemberServiceImpl implements MemberService {
 			
 			// 7. 사용자에게 예외를 던져버린다.
 			//	"비밀번호 또는 이메일을 잘못 입력했습니다. 확인 후 다시 시도해주세요."
-			throw new IllegalArgumentException("비밀번호 또는 이메일을 잘못 입력했습니다. 확인 후 다시 시도해주세요.");
+//			throw new IllegalArgumentException("비밀번호 또는 이메일을 잘못 입력했습니다. 확인 후 다시 시도해주세요.");
+			throw new MemberLoginException(memberLoginRequestVO);
 			
 		}
 		else {			

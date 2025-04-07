@@ -1,94 +1,48 @@
 package com.hello.member.vo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * @TableName MEMBERS
  * @TableComment null
  */
 public class MembersVO {
-
-    /**
-     * @ColumnName EMAIL
-     * @ColumnType VARCHAR2(100)
-     * @ColumnComment null
-     */
+	
     private String email;
 
-    /**
-     * @ColumnName NAME
-     * @ColumnType VARCHAR2(100)
-     * @ColumnComment null
-     */
     private String name;
-
-    /**
-     * @ColumnName PASSWORD
-     * @ColumnType VARCHAR2(100)
-     * @ColumnComment null
-     */
+    
+    @JsonIgnore
     private String password;
 
-    /**
-     * @ColumnName SALT
-     * @ColumnType VARCHAR2(100)
-     * @ColumnComment null
-     */
+    @JsonIgnore
     private String salt;
 
-    /**
-     * @ColumnName JOIN_DATE
-     * @ColumnType DATE
-     * @ColumnComment null
-     */
+    @JsonIgnore
     private String joinDate;
 
-    /**
-     * @ColumnName LATEST_LOGIN_IP
-     * @ColumnType VARCHAR2(15)
-     * @ColumnComment null
-     */
+    @JsonIgnore
     private String latestLoginIp;
 
-    /**
-     * @ColumnName LATEST_PASSWORD_CHANGE_DATE
-     * @ColumnType DATE
-     * @ColumnComment null
-     */
+    @JsonIgnore
     private String latestPasswordChangeDate;
 
-    /**
-     * @ColumnName LATEST_LOGIN_DATE
-     * @ColumnType DATE
-     * @ColumnComment null
-     */
+    @JsonIgnore
     private String latestLoginDate;
 
-    /**
-     * @ColumnName LATEST_LOGIN_FAIL_DATE
-     * @ColumnType DATE
-     * @ColumnComment null
-     */
+    @JsonIgnore
     private String latestLoginFailDate;
 
-    /**
-     * @ColumnName LOGIN_FAIL_COUNT
-     * @ColumnType NUMBER(10, 0)
-     * @ColumnComment null
-     */
+    @JsonIgnore
     private int loginFailCount;
 
-    /**
-     * @ColumnName LOGIN_YN
-     * @ColumnType CHAR(1)
-     * @ColumnComment null
-     */
+    @JsonIgnore
     private String loginYn;
 
-    /**
-     * @ColumnName BLOCK_YN
-     * @ColumnType CHAR(1)
-     * @ColumnComment null
-     */
+    @JsonIgnore
     private String blockYn;
+    
+    
 
     public String getEmail() {
         return this.email;
