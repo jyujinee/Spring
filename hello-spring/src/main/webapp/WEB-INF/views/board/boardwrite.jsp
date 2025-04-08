@@ -7,10 +7,10 @@ pageEncoding="UTF-8"%>
   <head>
     <meta charset="UTF-8" />
     <title>게시글 작성 페이지</title>
+	<link rel="stylesheet" href="/css/common.css" type="text/css"/>
+	<script src="/js/jquery-3.7.1.min.js" type="text/javascript"></script>
+	<script src="/js/common.js" type="text/javascript"></script>
   </head>
-  <link rel="stylesheet" href="/css/common.css" type="text/css"/>
-  <script src="/js/jquery-3.7.1.min.js" type="text/javascript"></script>
-  <script src="/js/common.js" type="text/javascript"></script>
   <body>
   <jsp:include page="/WEB-INF/views/member/loginstatus.jsp"/> 
   

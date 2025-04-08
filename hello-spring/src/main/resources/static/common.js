@@ -1,19 +1,15 @@
 $().ready(function () {
-  // 글 작성 페이지 이벤트
+  // 글 작성 페이지 이벤트.
   $("form.write-form")
     .find(".write-save")
     .on("click", function () {
-      var invalidInputs = $("input:invalid, textarea:invalid");
-      // 입력값이 없는 속성(invalid)의 개수 > 0
+      var invalidInputs = $("input:invalid,textarea:invalid");
       if (invalidInputs.length > 0) {
-        // return; 전송하지 않는다.
         return;
       }
-      // 필수 입력값 체크
-      // (가정)모든 내용을 작성해야지만 전송이 가능하도록 한다.
+
       $("form.write-form")
         .attr({
-          // 객체 리터럴 타입
           method: "POST",
           action: "/board/write",
         })
@@ -24,21 +20,15 @@ $().ready(function () {
   $("form.modify-form")
     .find(".modify-save")
     .on("click", function () {
-      var invalidInputs = $("input:invalid, textarea:invalid");
-      // 입력값이 없는 속성(invalid)의 개수 > 0
+      var invalidInputs = $("input:invalid,textarea:invalid");
       if (invalidInputs.length > 0) {
-        // return; 전송하지 않는다.
         return;
       }
 
-      // 브라우저에서 id값을 얻어온다.
       var id = $("form.modify-form").find("input[type=hidden]").val();
 
-      // 필수 입력값 체크
-      // (가정)모든 내용을 작성해야지만 전송이 가능하도록 한다.
       $("form.modify-form")
         .attr({
-          // 객체 리터럴 타입
           method: "POST",
           action: "/board/modify/" + id,
         })
@@ -46,165 +36,362 @@ $().ready(function () {
     });
     
     
-    
-    // 회원 가입 이벤트
-      $(".member-regist-form").find(".cancel-button")
-         .on("click", function() {
-            history.back();
-         });
-      
-      $(".member-regist-form").find(".regist-button")
-         .on("click", function() {
-            $(".member-regist-form").attr({
-                method: "POST",
-                action: "/member/regist"
-            }).submit();
-         });
-         
-      // 회원가입 비밀번호 패턴 체크
-      $(".member-regist-wrapper").find("#password, #confirmPassword")
-        .on("keyup", function() {
-            // 대문자, 소문자, 숫자, 특수기호 포함해서 10자리 이상.
-            var passwordRegExr = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z])(?=.*\W).{10,}$/;
-            var value = $(this).val();
-            
-            // 패스워드가 정규표현식의 패턴과 일치하는지 검사.
-            var match = passwordRegExr.test(value);
-            
-            if (!match) {
-                var existsPasswordPatternError = $(this).closest("div").find(".passwordPatternError");
-                if (existsPasswordPatternError.length == 0) {
-                    var message = "비밀번호는 영소문자, 대문자, 숫자, 특수문자를 포함해 10자리 이상으로 입력해야 합니다.";
-                    var errorDom = $("<div></div>");
-                    errorDom.text(message);
-                    errorDom.addClass("error");
-                    errorDom.addClass("passwordPatternError");
-                    
-                    $(this).after(errorDom);
-                }
+  // 회원 가입 이벤트
+  $(".member-regist-form").find(".cancel-button")
+     .on("click", function() {
+        history.back();
+     });
+  
+  $(".member-regist-form").find(".regist-button")
+     .on("click", function() {
+        $(".member-regist-form").attr({
+            method: "POST",
+            action: "/member/regist"
+        }).submit();
+     });
+     
+  // 회원가입 비밀번호 패턴 체크
+  $(".member-regist-wrapper").find("#password, #confirmPassword")
+    .on("keyup", function() {
+        // 대문자, 소문자, 숫자, 특수기호 포함해서 10자리 이상.
+        var passwordRegExr = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z])(?=.*\W).{10,}$/;
+        var value = $(this).val();
+        
+        // 패스워드가 정규표현식의 패턴과 일치하는지 검사.
+        var match = passwordRegExr.test(value);
+        
+        if (!match) {
+            var existsPasswordPatternError = $(this).closest("div").find(".passwordPatternError");
+            if (existsPasswordPatternError.length == 0) {
+                var message = "비밀번호는 영소문자, 대문자, 숫자, 특수문자를 포함해 10자리 이상으로 입력해야 합니다.";
+                var errorDom = $("<div></div>");
+                errorDom.text(message);
+                errorDom.addClass("error");
+                errorDom.addClass("passwordPatternError");
+                
+                $(this).after(errorDom);
             }
-            else {
-                var isErrorDom = $(this).closest("div").find(".passwordPatternError");
-                if (isErrorDom) {
-                    $(this).closest("div").find(".passwordPatternError").remove();
-                }
+        }
+        else {
+            var isErrorDom = $(this).closest("div").find(".passwordPatternError");
+            if (isErrorDom) {
+                $(this).closest("div").find(".passwordPatternError").remove();
             }
+        }
+        
+        // 패스워드 일치검사.
+        var password = $(".member-regist-wrapper").find("#password").val();
+        var confirmPassword = $(".member-regist-wrapper").find("#confirmPassword").val();
+        
+        if (password != confirmPassword) {
+            var isPasswordEqualError = $(".member-regist-wrapper").find("#password")
+                                            .closest("div").find(".passwordEqualError");
+            var isConfirmPasswordEqualError = $(".member-regist-wrapper").find("#confirmPassword")
+                                            .closest("div").find(".passwordEqualError");
             
-            // 패스워드 일치검사.
-            var password = $(".member-regist-wrapper").find("#password").val();
-            var confirmPassword = $(".member-regist-wrapper").find("#confirmPassword").val();
-            
-            if (password != confirmPassword) {
-                var isPasswordEqualError = $(".member-regist-wrapper").find("#password")
-                                                .closest("div").find(".passwordEqualError");
-                var isConfirmPasswordEqualError = $(".member-regist-wrapper").find("#confirmPassword")
-                                                .closest("div").find(".passwordEqualError");
-                
-                if (isPasswordEqualError.length > 0 && isConfirmPasswordEqualError.length > 0) {
-                    return;
-                }
-                
-                var passwordEqualErrorMessage = "비밀번호가 일치하지 않습니다.";
-                var passwordEqualErrorDom = $("<div></div>");
-                passwordEqualErrorDom.text(passwordEqualErrorMessage);
-                passwordEqualErrorDom.addClass("error");
-                passwordEqualErrorDom.addClass("passwordEqualError");
-                
-                var confirmPasswordEqualErrorDom = $("<div></div>");
-                confirmPasswordEqualErrorDom.text(passwordEqualErrorMessage);
-                confirmPasswordEqualErrorDom.addClass("error");
-                confirmPasswordEqualErrorDom.addClass("passwordEqualError");
-                
-                $(".member-regist-wrapper").find("#password").after(passwordEqualErrorDom);
-                $(".member-regist-wrapper").find("#confirmPassword").after(confirmPasswordEqualErrorDom);
-            }
-            else {
-                $(".member-regist-wrapper").find("#password").closest("div").find(".passwordEqualError").remove();
-                $(".member-regist-wrapper").find("#confirmPassword").closest("div").find(".passwordEqualError").remove();
+            if (isPasswordEqualError.length > 0 && isConfirmPasswordEqualError.length > 0) {
+                return;
             }
             
-        });
-
-        // 회원가입 이메일 중복 체크 이벤트
-        // blur는 다른 것을 누를 때 반응함.
-        $(".member-regist-wrapper").find("#email")
-        .on("blur", function(){
-           // 호이스팅 
-           // 여기서 this는 callback함수를 가리킨다. function(ajaxResponse){ }
-           var emailValue = $(this).val();
-           // 이번에 this는 $()를 안붙였다!
-           // 왜? $(".member-regist-wrapper").find("#email")를 가리켜야하기 때문이다.
-           var that = this; // 그래서 밑에의 that에는 $()를 붙인다.
-           
-           // ajax
-           // $.get("url", {파라미터}, function(콜백 함수){}); 
-           $.get("/member/available", 
+            var passwordEqualErrorMessage = "비밀번호가 일치하지 않습니다.";
+            var passwordEqualErrorDom = $("<div></div>");
+            passwordEqualErrorDom.text(passwordEqualErrorMessage);
+            passwordEqualErrorDom.addClass("error");
+            passwordEqualErrorDom.addClass("passwordEqualError");
+            
+            var confirmPasswordEqualErrorDom = $("<div></div>");
+            confirmPasswordEqualErrorDom.text(passwordEqualErrorMessage);
+            confirmPasswordEqualErrorDom.addClass("error");
+            confirmPasswordEqualErrorDom.addClass("passwordEqualError");
+            
+            $(".member-regist-wrapper").find("#password").after(passwordEqualErrorDom);
+            $(".member-regist-wrapper").find("#confirmPassword").after(confirmPasswordEqualErrorDom);
+        }
+        else {
+            $(".member-regist-wrapper").find("#password").closest("div").find(".passwordEqualError").remove();
+            $(".member-regist-wrapper").find("#confirmPassword").closest("div").find(".passwordEqualError").remove();
+        }
+    });
+  
+  // 회원가입 이메일 중복 체크 이벤트
+  $(".member-regist-wrapper").find("#email")
+    .on("blur", function() {
+        
+        var emailValue = $(this).val();
+        var that = this;
+        
+        $.get(
+            "/member/available", 
             {
-              "email":emailValue
+                "email": emailValue
             }, 
-           function(ajaxResponse){
-            /* ajaxResponse
-             {
-                "status": 200,
-                "data": {
-                    "available": true
-                }
-            }
-            */
-           if(ajaxResponse === 200 &&
-            ajaxResponse.data.available) {
-                // available값이 true면 사용할 수 있는 이메일이다.
-                $(that).closest("div").find(".emailDuplicateError").remove();
-            } else { // 사용할 수 없는 이메일
+            function(ajaxResponse) {
+                /**
+                 {
+                     "status": 200,
+                     "data": {
+                         "available": true
+                     }
+                 }
+                 */
                 
-                if($(that).closest("div").find(".emailDuplicateError").length > 0){
-                
-                var emailErrorDom = $("<div></div>");
-                emailErrorDom.text("이미 사용중인 이메일입니다. 다른 이메일을 입력해주세요.");
-                emailErrorDom.addClass("error");
-                emailErrorDom.addClass("emailDuplicateError");
-                    return;
-                }
-                
-                // 이때 this -> $.get ()에 있는 email 자바스크립트의 this는 function을 호출한 this이다.
-                // 이때 that은 input
-                $(that).after(emailErrorDom);
-            }
-           }); 
-        });
+                 if (ajaxResponse.status === 200 &&
+                    ajaxResponse.data.available) {
+                    // 사용할 수 있는 이메일.
+                    $(that).closest("div").find(".emailDuplicateError").remove();
+                    
+                 } else {
+                    // 사용할 수 없는 이메일.
+                    if ( $(that).closest("div").find(".emailDuplicateError").length > 0 ) {
+                        return;
+                    }
+                    
+                    var emailErrorDom = $("<div></div>");
+                    emailErrorDom.text("이미 사용중인 이메일입니다. 다른 이메일을 입력해주세요.");
+                    emailErrorDom.addClass("error");
+                    emailErrorDom.addClass("emailDuplicateError");
+                    
+                    // Quiz. $(this)는 누구일까요?
+                    $(that).after(emailErrorDom);
+                    
+                 }
+            });
+    });
+    
+    $(".member-regist-wrapper").find("input")
+      .on("keyup", function() {
+        var hasErrors = $(".member-regist-wrapper").find(".error").length > 0;
+        hasErrors = hasErrors || $("input:invalid").length > 0;
         
-        $(".member-regist-wrapper").find("input")
-        .on("keyup", function(){
-            var hasErrors = $(".member-regist-wrapper").find(".error").length > 0;
-			hasErrors = hasErrors || $("input:invalid").length > 0;
-            
-            if(hasErrors){
-                $(".member-regist-wrapper").find(".regist-button").attr("disabled", "disabled");
-            }
-            else {
-                $(".member-regist-wrapper").find(".regist-button").removeAttr("disabled"); 
-            }
-        });
+        if (hasErrors) {
+            $(".member-regist-wrapper").find(".regist-button").attr("disabled", "disabled");
+        }
+        else {
+            $(".member-regist-wrapper").find(".regist-button").removeAttr("disabled");
+        }
         
-        /* 로그인 버튼 이벤트 */
-        $(".login-form").find(".login-button")
-        .on("click", function() {
+      })
+    
+  $(".login-form").find(".login-button")
+     .on("click", function() {
+        var nextUrl = location.pathname;
+        if (nextUrl === "/member/login") {
+            nextUrl = "/board/list";
+        }
+        
+        $(".login-form").find(".next-url").val(nextUrl);
+        
+        $(".login-form").attr({
+          "action": "/member/login",
+          "method": "POST"  
+        }).submit();
+     });
+  
+  /****************************/
+  /***** 댓글 이벤트 들 ***********/
+  /****************************/
+  function loadReplyFunction() {
+    $(".reply-list-wrapper").html("");
+    
+    var boardId = $(".reply-list-wrapper").data("id");
+    var url = "/ajax/reply/" + boardId;
+    
+    $.get(url, function(ajaxResponse) {
+        var status = ajaxResponse.status;
+        var data = ajaxResponse.data;
+        
+        if (status === 200) {
+            var templateHtml = $(".reply-item-template").html();
             
-            /* 현재 URL을 가져옴 */
-            var nextUrl = location.pathname;
-            
-            /* 로그인 버튼을 눌러서 로그인 중이라면 */
-            if(nextUrl == "/member/login") {
-                nextUrl = "/board/list";
-            }
-            
-            $(".login-form").find(".next-url").val(nextUrl);
-            $(".login-form").attr({
-                "action" : "/member/login",
-                "method" : "POST"
-            })
-            .submit();
-            
-        });
+            for (var i = 0; i < data.length; i++) {
+                var replyItem = data[i];
+                
+                var replyItemDom = $(templateHtml);
+                replyItemDom.css({
+                    "margin-left": "calc(" + (replyItem.level - 1) + " * 3rem + 0.625rem)",
+                    "border-left": "1px solid #ccc"
+                });
+                
+                replyItemDom.attr({
+                    "data-reply-id": replyItem.replyId
+                });
+                
+                replyItemDom.find(".reply-item-writer")
+                            .find("span")
+                            .eq(0).text(replyItem.memberVO.name);
+                            
+                replyItemDom.find(".reply-item-writer")
+                            .find("span")
+                            .eq(1).text("작성시간: " + replyItem.crtDt);
+                            
+                replyItemDom.find(".reply-item-writer")
+                            .find("span")
+                            .eq(2).text("수정시간: " + replyItem.mdfyDt);
+                            
+                replyItemDom.find(".reply-item-content")
+                            .text(replyItem.content);
+                            
+                replyItemDom.find(".reply-item-actions")
+                            .find(".reply-item-recommend-count")
+                            .text("추천수: " + replyItem.recommendCnt);
+                
+                replyItemDom.find(".reply-item-actions")
+                            .find(".reply-item-modify")
+                            .on("click", function() {
+                                var replyDom = $(this).closest("li");
+                                
+                                var replyContent = replyDom.find(".reply-item-content")
+                                                           .text();
+                                
+                                $(".reply-writer-wrapper").data("endpoint", "/modify");
+                                $(".reply-writer-wrapper").data("reply-id", replyDom.data("reply-id"));
+                                
+                                //$(".reply-writer-wrapper").attr({
+                                //    "data-endpoint": "/modify",
+                                //    "data-reply-id": replyDom.data("reply-id")
+                                //});
+                                
+                                $(".reply-writer-wrapper")
+                                      .find(".reply-content")
+                                      .val(replyContent);
+                                      
+                                $(".reply-writer-wrapper")
+                                      .find(".reply-content")
+                                      .focus();
+                            });
+                            
+                replyItemDom.find(".reply-item-actions")
+                            .find(".reply-item-delete")
+                            .on("click", function() {
+                                var replyItem = $(this).closest("li");
+                                var replyId = replyItem.data("reply-id");
+                                
+                                var url = "/ajax/reply/delete/" + boardId + "/" + replyId;
+                                $.get(url, function(deleteResponse) {
+                                    var status = deleteResponse.status;
+                                    
+                                    if (status === 200) {
+                                        replyItem.remove();
+                                    }
+                                    else if (status === 400) {
+                                        var errorData = deleteResponse.data;
+                                        alert(errorData);
+                                    }
+                                    else if (status === 401) {
+                                        alert("로그인이 만료되었습니다. 다시 로그인 해주세요.");
+                                        location.href = "/member/login";
+                                    }
+                                });
+                            });
+                            
+                replyItemDom.find(".reply-item-actions")
+                            .find(".reply-item-recommend")
+                            .on("click", function() {
+                                var replyItem = $(this).closest("li");
+                                var replyId = replyItem.data("reply-id");
+                                
+                                var url = "/ajax/reply/recommend/" + boardId + "/" + replyId;
+                                $.get(url, function(recommendResponse) {
+                                    var status = recommendResponse.status;
+                                    
+                                    if (status === 200) {
+                                        var resultData = recommendResponse.data;
+                                        replyItem.find(".reply-item-recommend-count")
+                                                 .text("추천수: " + resultData);
+                                    }
+                                    else if (status === 400) {
+                                        var errorData = recommendResponse.data;
+                                        alert(errorData);
+                                    }
+                                    else if (status === 401) {
+                                        alert("로그인이 만료되었습니다. 다시 로그인 해주세요.");
+                                        location.href = "/member/login";
+                                    }
+                                });
+                            });
+                            
+                replyItemDom.find(".reply-item-actions")
+                            .find(".reply-item-write")
+                            .on("click", function() {
+                                var replyDom = $(this).closest("li");
 
+                        //        $(".reply-writer-wrapper").attr({
+                        //            "data-reply-id": replyDom.data("reply-id")
+                        //        });
+
+                                $(".reply-writer-wrapper").data("reply-id", replyDom.data("reply-id"));
+                                $(".reply-writer-wrapper")
+                                      .find(".reply-content")
+                                      .focus();
+                            });
+                            
+                $(".reply-list-wrapper").append(replyItemDom);
+            }
+        }
+        else if (status === 401) {
+            alert("로그인이 만료되었습니다. 다시 로그인해주세요.");
+            location.href = "/member/login";
+        }
+        
+    });
+    
+  }
+  
+  if ( $(".reply-list-wrapper").length > 0 ) {
+    loadReplyFunction();
+  }
+  
+     
+  $(".reply-writer-wrapper").find(".reply-write-button")
+     .on("click", function() {
+        
+        var boardId = $(this).closest(".reply-writer-wrapper")
+                             .data("id");
+                             
+        var contentDom = $(this).closest(".reply-writer-wrapper")
+                                .find(".reply-content");
+                                
+        var content = contentDom.val();
+        
+        var endpoint = $(this).closest(".reply-writer-wrapper")
+                              .data("endpoint");
+        var replyId = $(this).closest(".reply-writer-wrapper")
+                             .data("reply-id");
+        var param = {"content": content};
+                             
+        if (endpoint === "/modify" && replyId !== "") {
+            replyId = "/" + replyId;
+        }
+        else if (endpoint === "" && replyId !== "") {
+            // Data 수정.
+            param.parentReplyId = replyId;
+            replyId = "";
+        }
+        
+        var url = "/ajax/reply" + endpoint + "/" + boardId + replyId;
+        
+        $(this).closest(".reply-writer-wrapper").removeData("endpoint");
+        $(this).closest(".reply-writer-wrapper").removeData("reply-id");
+        
+        $.post(url,
+              param,
+              function(ajaxResponse) {
+                var status = ajaxResponse.status;
+                if (status == 200) {
+                    // 댓글 불러오기를 처리.
+                    loadReplyFunction();
+                }
+                else if (status == 400) {
+                   // Validation Check에 걸림.
+                   // 에러의 내용을 content의 placeholder에 할당한다.
+                   var errorData = ajaxResponse.data;
+                   contentDom.attr({
+                      "placeholder": errorData.content
+                   });
+                   contentDom.focus();
+                }
+              });
+        
+     });
 });
+

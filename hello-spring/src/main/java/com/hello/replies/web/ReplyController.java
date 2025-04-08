@@ -1,13 +1,18 @@
 package com.hello.replies.web;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
@@ -27,6 +32,7 @@ import jakarta.validation.Valid;
 //@ResponseBody // 클래스에 모든 메소드의 응답 데이터가 전부 다 jason이다. => 이 경우에 클래스 위에 붙인다.
 // 위에 @Controller + @ResponseBody를 합쳐 한번에 작성하는 방법은 @RestController 이다.
 @RestController
+@RequestMapping("/ajax") // 공통으로 end-point앞에 ajax임을 붙여서, Ajax명시하기 위해 사용
 public class ReplyController {
 
     @Autowired
@@ -51,10 +57,27 @@ public class ReplyController {
     	// JSP:<form:form> 폼 기반 전송을 하지 않으면 Model이 필요하지 않다!
     	
     	if(bindingResult.hasErrors()) {
-    		// TO-DO: Validation Check 결과를 JSON으로 돌려주기
-    	
-    		// 400 번 반환(실패)
-    	return new AjaxResponse(HttpStatus.BAD_REQUEST.value(), null);
+    		
+    		// 에러가 존재할 때만 
+    		List<ObjectError> allErrors = bindingResult.getAllErrors();
+    		
+    		// 각 에러마다 에러 메시지를 넣어주기 위해 Map을 이용한다.
+    		Map<String, String> errorMap = new HashMap<>();
+    		
+    		for(ObjectError error : allErrors) {
+    			// 댓글의 내용을 작성하세요.
+    			String message = error.getDefaultMessage();
+    			String fieldName="";
+    			
+    			// content가 fieldName에 들어간다.
+    			if(error instanceof FieldError fieldError) {
+    				fieldName = fieldError.getField();
+    			}
+    			// 맵에 데이터를 넣어준다.
+    			errorMap.put(fieldName, message);
+    		}
+    		
+    		return new AjaxResponse(HttpStatus.BAD_REQUEST.value(), errorMap);
     	}
     	
     	replyRegistRequestVO.setBoardId(boardId);
@@ -72,7 +95,7 @@ public class ReplyController {
     @GetMapping("/reply/delete/{boardId}/{replyId}")
     public AjaxResponse doDeleteOneReply(@PathVariable int boardId,
     									@PathVariable int replyId,
-    									@SessionAttribute("__USER_LOGIN__") MembersVO memberVO) {
+    									@SessionAttribute("__LOGIN_USER__") MembersVO memberVO) {
     	
     	ReplyDeleteRequestVO replyDeleteRequestVO = new ReplyDeleteRequestVO();
     	replyDeleteRequestVO.setBoardId(boardId);
@@ -92,7 +115,27 @@ public class ReplyController {
     									BindingResult bindingResult,
     									@SessionAttribute("__LOGIN_USER__") MembersVO memberVO) {
     	if(bindingResult.hasErrors()) {
-    		return new AjaxResponse(HttpStatus.BAD_REQUEST.value(), null);
+    		
+    		// 에러가 존재할 때만 
+    		List<ObjectError> allErrors = bindingResult.getAllErrors();
+    		
+    		// 각 에러마다 에러 메시지를 넣어주기 위해 Map을 이용한다.
+    		Map<String, String> errorMap = new HashMap<>();
+    		
+    		for(ObjectError error : allErrors) {
+    			// 댓글의 내용을 작성하세요.
+    			String message = error.getDefaultMessage();
+    			String fieldName="";
+    			
+    			// content가 fieldName에 들어간다.
+    			if(error instanceof FieldError fieldError) {
+    				fieldName = fieldError.getField();
+    			}
+    			// 맵에 데이터를 넣어준다.
+    			errorMap.put(fieldName, message);
+    		}
+    		
+    		return new AjaxResponse(HttpStatus.BAD_REQUEST.value(), errorMap);
     	}
     	
     	replyUpdateRequestVO.setBoardId(boardId);
@@ -115,9 +158,9 @@ public class ReplyController {
     	recommendRequestVO.setReplyId(replyId);
     	recommendRequestVO.setEmail(memberVO.getEmail());
     	
-    	boolean isRecommend = this.replyService.recommendOneReply(recommendRequestVO);
+    	int recommendCnt = this.replyService.recommendOneReply(recommendRequestVO);
     	
-    	return new AjaxResponse(isRecommend);
+    	return new AjaxResponse(recommendCnt);
     	
     }
     

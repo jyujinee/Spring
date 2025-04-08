@@ -18,6 +18,7 @@ public interface ReplyService {
 	
 	public boolean modifyOneReply(ReplyUpdateRequestVO replyUpdateRequestVO);
 	
-	public boolean recommendOneReply(ReplyRecommendRequestVO replyRecommendRequestVO);
+	// 추천 수를 반환 int
+	public int recommendOneReply(ReplyRecommendRequestVO replyRecommendRequestVO);
 
 }
