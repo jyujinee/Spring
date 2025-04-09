@@ -19,7 +19,10 @@ pageEncoding="UTF-8"%>
      현재 페이지의 host와 불려오려는 파일의 host가 같으면, 
      <link href>에서 host는 생략할 수 있다.
      <link rel="stylesheet" href="http://localhost:8080/common.css"> -->
+     
     <link rel="stylesheet" href="/css/common.css" type="text/css" />
+    <script src="/js/jquery-3.7.1.min.js" type="text/javascript"></script>
+    <script src="/js/common.js" type="text/javascript"></script>
   </head>
   <body>
 <!--    <h1>게시글 목록</h1>
@@ -32,7 +35,22 @@ pageEncoding="UTF-8"%>
     <%--2.  jsp를 보여주기--%>
     <jsp:include page="/WEB-INF/views/member/loginstatus.jsp"/> 
     
-       
+    <div class="search-area">
+        <label for="writer-name">작성자</label>
+        <input type="text" id="writer-name"/>
+        
+        <label for="writer-email">이메일</label>
+        <input type="text" id="writer-email"/>
+        
+        <label for="subject">제목</label>
+        <input type="text" id="subject"/>
+        
+        <label for="content">내용</label>
+        <input type="text" id="content" />
+        <%-- 이벤트를 주기 위해 클래스가 두개 board-search-button --%>
+        <button type="button" class="search-button board-search-button">검색</button>
+    </div>
+    
     <div class="right-align">총 ${boardList.boardCnt}건의 게시글이 검색되었습니다.</div>
 
     <table class="grid">
@@ -79,6 +97,47 @@ pageEncoding="UTF-8"%>
         </c:choose>
         </tbody>
     </table>
+    
+    페이지 수: ${pagination.pageCount} /
+    현재 페이지(블럭) 번호 : ${pagination.pageNo} /
+    노출 할 게시글의 개수 : ${pagination.listSize}
+    <ul class="paginator">
+        <c:if test="${pagination.hasNextGroup}">
+            <li>
+                <a href="/board/list?pageNo=0&listSize=${pagination.listSize}">처음</a>
+            </li>
+            
+            
+            <li>
+                <a href="/board/list?pageNo=${pagination.prevGroupStartPageNo}&listSize=${pagination.listSize}">이전</a>
+            </li>
+        </c:if>
+    
+    
+        <c:forEach begin="${pagination.groupStartPageNo}"
+                   end="${pagination.groupEndPageNo}"
+                   step="1"
+                   var="p">
+            <li class="${pagination.pageNo == p ? 'active' : ''}">
+                <a href="/board/list?pageNo=${p}&listSize=${pagination.listSize}">
+                    ${p+1}
+                </a>
+            </li>
+                   
+        </c:forEach>
+        
+        <c:if test="${pagination.hasPrevGroup}">
+            <li>
+                <a href="/board/list?pageNo=${pagination.nextGroupStartPageNo}&listSize=${pagination.listSize}">다음</a>
+            </li>
+            
+            <li>
+                <a href="/board/list?pageNo=${pagination.pageCount - 1}&listSize=${pagination.listSize}">마지막</a>
+            </li>
+        </c:if>
+    </ul>
+    
+    
     <c:if test="${not empty sessionScope.__LOGIN_USER__}">
         <a href="/board/write">게시글 등록하기</a>
     </c:if>

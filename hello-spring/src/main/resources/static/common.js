@@ -186,6 +186,23 @@ $().ready(function () {
           "method": "POST"  
         }).submit();
      });
+     
+     /* 검색하기 이벤트 */
+     $(".board-search-button").on("click", function() {
+        var writerName = $("#writer-name").val();
+        var writerEmail = $("#writer-email").val();
+        var subject = $("#subject").val();
+        var content = $("#content").val();
+        var pageNo = 0;
+        var listSize = 10;
+        
+        location.href="/board/list?writerName=" + writerName 
+                                + "&writerEmail=" + writerEmail
+                                + "&subject=" + subject
+                                + "&content=" + content
+                                + "&pageNo=" + pageNo
+                                + "&listSize=" + listSize;
+     });
   
   /****************************/
   /***** 댓글 이벤트 들 ***********/

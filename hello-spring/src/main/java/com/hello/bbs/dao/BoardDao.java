@@ -3,6 +3,7 @@ package com.hello.bbs.dao;
 import java.util.List;
 
 import com.hello.bbs.vo.BoardDeleteRequestVO;
+import com.hello.bbs.vo.BoardSearchRequestVO;
 import com.hello.bbs.vo.BoardUpdateRequestVO;
 import com.hello.bbs.vo.BoardVO;
 import com.hello.bbs.vo.BoardWriteRequestVO;
@@ -10,10 +11,10 @@ import com.hello.bbs.vo.BoardWriteRequestVO;
 public interface BoardDao {
 
 	//	DB에 저장된 모든 게시글의 수를 조회
-	public int selectBoardAllCount();
+	public int selectBoardAllCount(BoardSearchRequestVO boardSearchRequestVO);
 	
 	//	DB에 저장된 모든 게시글의 목록을 조회
-	public List<BoardVO> selectAllBoard();
+	public List<BoardVO> selectAllBoard(BoardSearchRequestVO boardSearchRequestVO);
 	
 	/*	게시글 작성을 위한 메소드 정의
 	 *  DB에 새로운 게시글을 등록한다

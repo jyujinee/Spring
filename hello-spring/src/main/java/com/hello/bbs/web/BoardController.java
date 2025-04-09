@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import com.hello.bbs.service.BoardService;
 import com.hello.bbs.vo.BoardDeleteRequestVO;
 import com.hello.bbs.vo.BoardListVO;
+import com.hello.bbs.vo.BoardSearchRequestVO;
 import com.hello.bbs.vo.BoardUpdateRequestVO;
 import com.hello.bbs.vo.BoardVO;
 import com.hello.bbs.vo.BoardWriteRequestVO;
@@ -34,8 +35,11 @@ public class BoardController {
     @Autowired
     private BoardService boardService;
     
+    // localhost:8080/board/list?pageNo=0&listSize=20
+    // 0번 페이지를 보여달라. 그 페이지에는 20개의 게시글을 보여달라는 의미
     @GetMapping("/board/list") // 페이지 주소(URL)에 접속하면, 아래의 메소드에 맵핑해준다.
-    public String viewBoardList(Model model) { // 데이터를 전송해주는 모델
+    public String viewBoardList(Model model 	// 데이터를 전송해주는 모델
+    							,BoardSearchRequestVO boardSearchRequestVO) { 
     	
     	// 로그 출력
     	LOGGER.trace("/board/list 를 방문했습니다.");
@@ -44,8 +48,10 @@ public class BoardController {
     	LOGGER.warn("/board/list 를 방문했습니다.");
     	LOGGER.error("/board/list 를 방문했습니다.");
     	
-    	BoardListVO boardListVO = this.boardService.getBoardList(); //getter
+    	BoardListVO boardListVO = this.boardService.getBoardList(boardSearchRequestVO);
     	model.addAttribute("boardList",boardListVO);
+    	// 총 페이지의 수, 현재 페이지 번호를 알 수 있는 boardSearchRequestVO를 model에 넣어서 알려줌.
+    	model.addAttribute("pagination", boardSearchRequestVO); 
     	return "board/boardlist"; // 화면에 보이는 뷰(파일)네임
     }
     

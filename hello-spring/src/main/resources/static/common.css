@@ -259,3 +259,37 @@ table.grid > tbody tr.empty > td {
 table.grid > tbody tr.empty:hover {
     background-color: #EEE6;
 }
+
+/* pagination style */
+ul.paginator {
+	display: flex;
+	flex-wrap: wrap;
+	padding: 0;
+	margin: 0;
+	gap: 0.315rem;
+	list-style-type: none;
+	justify-content: center;
+}
+
+ul.paginator > li.active > a {
+	color: #f00;
+}
+
+/* search style */
+.search-area {
+    display: grid;
+    grid-template-columns: repeat(2, 5rem 1fr);
+    gap: 0.315rem;
+    margin-bottom: 0.625rem; 
+}
+
+.search-area > label{
+	padding: 0.625rem;
+	text-align: right;
+}
+
+.search-area .search-button{
+	grid-column: 1 / -1;
+	width: 5rem;
+	margin-left: auto;
+}

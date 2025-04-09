@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.hello.bbs.dao.BoardDao;
 import com.hello.bbs.vo.BoardDeleteRequestVO;
+import com.hello.bbs.vo.BoardSearchRequestVO;
 import com.hello.bbs.vo.BoardUpdateRequestVO;
 import com.hello.bbs.vo.BoardVO;
 import com.hello.bbs.vo.BoardWriteRequestVO;
@@ -23,13 +24,13 @@ public class BoardDaoImpl extends SqlSessionDaoSupport implements BoardDao{
 	}
 	
 	@Override
-	public int selectBoardAllCount() {
-		return getSqlSession().selectOne(NAME_SPACE + "selectBoardAllCount");
+	public int selectBoardAllCount(BoardSearchRequestVO boardSearchRequestVO) {
+		return getSqlSession().selectOne(NAME_SPACE + "selectBoardAllCount", boardSearchRequestVO);
 	}
 
 	@Override
-	public List<BoardVO> selectAllBoard() {
-		return getSqlSession().selectList(NAME_SPACE + "selectAllBoard");
+	public List<BoardVO> selectAllBoard(BoardSearchRequestVO boardSearchRequestVO) {
+		return getSqlSession().selectList(NAME_SPACE + "selectAllBoard", boardSearchRequestVO);
 	}
 	
 	@Override

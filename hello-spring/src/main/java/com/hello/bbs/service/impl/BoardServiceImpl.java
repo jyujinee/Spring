@@ -11,6 +11,7 @@ import com.hello.bbs.dao.BoardDao;
 import com.hello.bbs.service.BoardService;
 import com.hello.bbs.vo.BoardDeleteRequestVO;
 import com.hello.bbs.vo.BoardListVO;
+import com.hello.bbs.vo.BoardSearchRequestVO;
 import com.hello.bbs.vo.BoardUpdateRequestVO;
 import com.hello.bbs.vo.BoardVO;
 import com.hello.bbs.vo.BoardWriteRequestVO;
@@ -33,9 +34,12 @@ public class BoardServiceImpl implements BoardService {
     // select만 수행하는 경우 (readOnly = true)를 붙인다. update, delete, insert는 에러발생
     @Transactional(readOnly = true)
 	@Override
-	public BoardListVO getBoardList() {
-		int count = this.boardDao.selectBoardAllCount();
-		List<BoardVO> boardList = this.boardDao.selectAllBoard();
+	public BoardListVO getBoardList(BoardSearchRequestVO boardSearchRequestVO) {
+		int count = this.boardDao.selectBoardAllCount(boardSearchRequestVO);
+		// 총 게시글의 수를 가져와서 넣어준다.
+		boardSearchRequestVO.setPageCount(count);
+		
+		List<BoardVO> boardList = this.boardDao.selectAllBoard(boardSearchRequestVO);
 		
 		BoardListVO boardListVO = new BoardListVO();
 		boardListVO.setBoardCnt(count);

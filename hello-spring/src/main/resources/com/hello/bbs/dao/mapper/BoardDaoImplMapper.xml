@@ -35,26 +35,29 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
    
    
    <select id="selectBoardAllCount" resultType="_int">
-	  SELECT COUNT(ID)
-	  FROM BOARD
-	 WHERE EMAIL IN (SELECT EMAIL
-	                   FROM MEMBERS)
+      SELECT COUNT(ID)
+      FROM BOARD
+     WHERE EMAIL IN (SELECT EMAIL
+                       FROM MEMBERS)
    </select>
 
    <select id="selectAllBoard"
+           parameterType="com.hello.bbs.vo.BoardSearchRequestVO"
            resultMap="BoardVOMap">
-	SELECT B.ID
-	     , B.SUBJECT
-	     , B.CONTENT
-	     , B.EMAIL
-	     , B.VIEW_CNT
-	     , TO_CHAR(B.CRT_DT, 'YYYY-MM-DD') CRT_DT
-	     , TO_CHAR(B.MDFY_DT, 'YYYY-MM-DD') MDFY_DT
-	     , M.NAME
-	  FROM BOARD B
-	 INNER JOIN MEMBERS M
-	    ON B.EMAIL = M.EMAIL
-	 ORDER BY B.ID DESC
+    <include refid="Common.pagination_header" />
+    SELECT B.ID
+               , B.SUBJECT
+               , B.CONTENT
+               , B.EMAIL
+               , B.VIEW_CNT
+               , TO_CHAR(B.CRT_DT, 'YYYY-MM-DD') CRT_DT
+               , TO_CHAR(B.MDFY_DT, 'YYYY-MM-DD') MDFY_DT
+               , M.NAME
+            FROM BOARD B
+           INNER JOIN MEMBERS M
+              ON B.EMAIL = M.EMAIL
+           ORDER BY B.ID DESC
+    <include refid="Common.pagination_footer" />
    </select>
    
 
