@@ -1,14 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
-    <jsp:include page="/WEB-INF/views/member/loginstatus.jsp"/>
+
+
+<jsp:include page="/WEB-INF/views/layout/header.jsp"/>
     
     <h1>Page Not Found!</h1>
     
@@ -16,5 +11,4 @@
         <h3>${cause}</h3>
     </c:if>
 
-</body>
-</html>
+<jsp:include page="/WEB-INF/views/layout/footer.jsp"/>

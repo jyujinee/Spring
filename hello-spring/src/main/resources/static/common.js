@@ -188,13 +188,21 @@ $().ready(function () {
      });
      
      /* 검색하기 이벤트 */
-     $(".board-search-button").on("click", function() {
+     $(".board-search-button,.bord-paginator > li[data-page-no]").on("click", function() {
         var writerName = $("#writer-name").val();
         var writerEmail = $("#writer-email").val();
         var subject = $("#subject").val();
         var content = $("#content").val();
-        var pageNo = 0;
-        var listSize = 10;
+        // page-no가 값이 없으면 0을 할당하라는 의미 
+        var pageNo = $(this).data("page-no") || 0;
+        
+        // 자바스크립트는 값이 없으면 모두 false다. => 그래서 이렇게 안쓰고 변수에 할당한 것처럼 || 0으로 쓴다.
+    /*    if( !pageNo ) {
+            pageNo = 0;
+        }*/
+        
+        // listSize 노출할 게시글 수 선택하는 것을 동적으로 변경함
+        var listSize = $("#list-size").val();
         
         location.href="/board/list?writerName=" + writerName 
                                 + "&writerEmail=" + writerEmail

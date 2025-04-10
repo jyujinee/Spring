@@ -34,11 +34,31 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
    </resultMap>
    
    
-   <select id="selectBoardAllCount" resultType="_int">
+   <select id="selectBoardAllCount" 
+           resultType="_int"
+           parameterType="com.hello.bbs.vo.BoardSearchRequestVO">
       SELECT COUNT(ID)
       FROM BOARD
+      
      WHERE EMAIL IN (SELECT EMAIL
-                       FROM MEMBERS)
+                       FROM MEMBERS
+                     <where>
+					        <if test='writerName != null and writerName !=""'>
+					            AND NAME LIKE '%' || #{writerName}|| '%'
+					        </if>
+					        
+					        <if test='writerEmail != null and writerEmail !=""'>
+					            AND EMAIL = #{writerEmail}
+					        </if>
+					   </where>
+                      )
+       <if test='subject != null and subject !=""'>
+            AND SUBJECT LIKE '%' || #{subject} || '%'
+       </if>
+        
+       <if test='content != null and content !=""'>
+            AND CONTENT LIKE '%' || #{content} || '%'
+       </if> 
    </select>
 
    <select id="selectAllBoard"
@@ -56,7 +76,27 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             FROM BOARD B
            INNER JOIN MEMBERS M
               ON B.EMAIL = M.EMAIL
+              
+    <where>
+        <if test='writerName != null and writerName !=""'>
+            AND M.NAME LIKE '%' || #{writerName}|| '%'
+        </if>
+        
+        <if test='writerEmail != null and writerEmail !=""'>
+            AND M.EMAIL = #{writerEmail}
+        </if>
+        
+        <if test='subject != null and subject !=""'>
+            AND B.SUBJECT LIKE '%' || #{subject} || '%'
+        </if>
+        
+         <if test='content != null and content !=""'>
+            AND B.CONTENT LIKE '%' || #{content} || '%'
+        </if>
+        
+    </where>
            ORDER BY B.ID DESC
+           
     <include refid="Common.pagination_footer" />
    </select>
    

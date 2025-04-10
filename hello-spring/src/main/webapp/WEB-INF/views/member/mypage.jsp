@@ -2,17 +2,8 @@
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="jakarta.tags.core" %>
     
-<!DOCTYPE html>
-<html>
-<head>
-      <meta charset="UTF-8">
-      <title>My Page</title>
-      <link href="/css/common.css" rel="stylesheet" type="text/css">
-      <script src="/js/jquery-3.7.1.min.js" type="text/javascript"></script>
-      <script src="/js/common.js" type="text/javascript"></script>
-   
-</head>
-<body>
+    
+<jsp:include page="/WEB-INF/views/layout/header.jsp"/>
     
     <div class="my-page-wrapper">
 	<jsp:include page="/WEB-INF/views/member/loginstatus.jsp"/> 
@@ -53,5 +44,4 @@
 	    </div>
     </div>
 
-</body>
-</html>
+<jsp:include page="/WEB-INF/views/layout/footer.jsp"/>

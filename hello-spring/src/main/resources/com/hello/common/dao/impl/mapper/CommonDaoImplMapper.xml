@@ -7,14 +7,14 @@
     <!-- id = 내가 만들 쿼리의 변수명 지정.  -->
     <sql id="pagination_header">
      SELECT * 
-       FROM (SELECT ROWNUM AS RNUM
-            , S.*
-            FROM(
+       FROM ( SELECT ROWNUM AS RNUM
+                   , S.*
+                FROM (
     </sql>
     <sql id="pagination_footer">
     
-                    ) S
-              WHERE ROWNUM <![CDATA[ <= ]]> (#{pageNo} +1) * #{listSize}) 
-       WHERE RNUM >= #{pageNo} * #{listSize} + 1
+                     ) S
+               WHERE ROWNUM <![CDATA[ <= ]]> (#{pageNo} +1) * #{listSize} ) 
+     WHERE RNUM >= #{pageNo} * #{listSize} + 1
     </sql>
 </mapper>

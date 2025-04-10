@@ -2,18 +2,9 @@
 pageEncoding="UTF-8"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>게시글 작성 페이지</title>
-	<link rel="stylesheet" href="/css/common.css" type="text/css"/>
-	<script src="/js/jquery-3.7.1.min.js" type="text/javascript"></script>
-	<script src="/js/common.js" type="text/javascript"></script>
-  </head>
-  <body>
-  <jsp:include page="/WEB-INF/views/member/loginstatus.jsp"/> 
-  
+
+<jsp:include page="/WEB-INF/views/layout/header.jsp"/>
+
     <h1>게시글 작성</h1>
     <!-- 폼에 파일이 포함되면 폼 태그에 enctype을 작성해줘야한다. -->
     <!-- enctype="multipart/form-data" 을 반드시 작성해야 서버에 데이터 전송 가능 -->
@@ -59,5 +50,6 @@ pageEncoding="UTF-8"%>
         
       </div>
     </form:form>
-  </body>
-</html>
+
+    
+<jsp:include page="/WEB-INF/views/layout/footer.jsp"/>

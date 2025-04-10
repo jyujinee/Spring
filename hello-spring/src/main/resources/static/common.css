@@ -40,7 +40,31 @@ label {
 }
 
 /* wrapper styles */
+.wrapper {
+	width: 70%;
+	margin: 0 auto;
+}
 
+.wrapper > .header {
+	background-color: #00ff0d;
+	color: #fff;
+	display: grid;
+	margin-bottom: 0.625rem;
+}
+
+.wrapper > .header > .header-menu-list {
+	display: flex;
+	gap : 1rem;
+	margin: 0;
+	padding: 0;
+	background-color: #fff;
+	list-style-type: none; 
+	color: #333;
+	font-size: 1.3rem; 
+	font-weight: 700;
+	border-bottom:  3px solid #ccc;
+}	
+	
 .detail-wrapper > .grid {
   display: grid;
   grid-template-columns: 5rem 1fr;
@@ -52,12 +76,12 @@ label {
   padding: 0.315rem;
 }
 
-.member-regist-wrapper {
+/* .member-regist-wrapper {
     width: 70%;
     min-width: 31.25rem;
     margin: 0 auto;
 }
-
+ */
 /* 로그인 style */
 .login-status-wrapper {
 	padding: 0.625rem;
@@ -73,11 +97,11 @@ label {
 }
 
 /* 마이페이지 style */
-.my-page-wrapper {
+/* .my-page-wrapper {
 	width: 70%;
 	min-width: 31.25rem;
 	margin: 0 auto;
-}
+} */
 
 .my-page-wrapper > .my-page-content-wrapper {
 	display:flex;
@@ -279,6 +303,7 @@ ul.paginator > li.active > a {
 .search-area {
     display: grid;
     grid-template-columns: repeat(2, 5rem 1fr);
+    margin: 0 auto;
     gap: 0.315rem;
     margin-bottom: 0.625rem; 
 }

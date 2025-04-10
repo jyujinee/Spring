@@ -1,18 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="jakarta.tags.core" %>
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>게시글 조회 페이지</title>
-	<link rel="stylesheet" href="/css/common.css" type="text/css"/>
-	<script src="/js/jquery-3.7.1.min.js" type="text/javascript"></script>
-	<script src="/js/common.js" type="text/javascript"></script>
-  </head>
-  <body>
-  <jsp:include page="/WEB-INF/views/member/loginstatus.jsp"/> 
-  
+
+
+<jsp:include page="/WEB-INF/views/layout/header.jsp"/>
+
     <h1>게시글 조회</h1>
     <div class="detail-wrapper">
       <div class="grid">
@@ -87,5 +79,5 @@ pageEncoding="UTF-8"%>
            </li>
 	    </template>
 	  
-  </body>
-</html>
+
+<jsp:include page="/WEB-INF/views/layout/footer.jsp"/>

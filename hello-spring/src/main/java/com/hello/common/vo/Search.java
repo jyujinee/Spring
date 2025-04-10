@@ -101,6 +101,11 @@ public abstract class Search {
 			this.groupEndPageNo = this.pageCount - 1;
 		}
 		
+		// 페이지 번호가 음수가 되지 않도록 해줌!
+		if(this.groupEndPageNo < 0) {
+			this.groupEndPageNo = 0;
+		}
+		
 		// 다음 그룹이 있는지 확인하기
 		// 내가 보고 있는 그룹 + 1 < 전체 그룹 수
 		this.hasNextGroup = this.groupNo + 1 < this.groupCount;

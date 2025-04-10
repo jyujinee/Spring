@@ -3,11 +3,9 @@
 pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="jakarta.tags.core" %>
 
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>게시글 목록 조회 페이지</title>
+
+<jsp:include page="/WEB-INF/views/layout/header.jsp"/>
+
     <!-- 이 페이지의 end-point : http://localhost:8080/board/list 
      http:// <--- Protocol
      localhost <--- Domain
@@ -20,11 +18,7 @@ pageEncoding="UTF-8"%>
      <link href>에서 host는 생략할 수 있다.
      <link rel="stylesheet" href="http://localhost:8080/common.css"> -->
      
-    <link rel="stylesheet" href="/css/common.css" type="text/css" />
-    <script src="/js/jquery-3.7.1.min.js" type="text/javascript"></script>
-    <script src="/js/common.js" type="text/javascript"></script>
-  </head>
-  <body>
+
 <!--    <h1>게시글 목록</h1>
     <p>게시글의 수: ${boardList.boardCnt}</p>
     <p>조회한 게시글 목록의 수: ${boardList.getBoardList().size()}</p> -->
@@ -32,21 +26,21 @@ pageEncoding="UTF-8"%>
     <%-- Controller Endpoint를 해당 위치에 보여주는 방법
     1. c import --%>
     <%-- <c:import url="/member/loginstatus"/> --%>
-    <%--2.  jsp를 보여주기--%>
-    <jsp:include page="/WEB-INF/views/member/loginstatus.jsp"/> 
+    <%--2.  jsp를 보여주기
+    <jsp:include page="/WEB-INF/views/member/loginstatus.jsp"/>  --%>
     
     <div class="search-area">
         <label for="writer-name">작성자</label>
-        <input type="text" id="writer-name"/>
+        <input type="text" id="writer-name" value="${pagination.writerName}"/>
         
         <label for="writer-email">이메일</label>
-        <input type="text" id="writer-email"/>
+        <input type="text" id="writer-email" value="${pagination.writerEmail}"/>
         
         <label for="subject">제목</label>
-        <input type="text" id="subject"/>
+        <input type="text" id="subject" value="${pagination.subject}"/>
         
         <label for="content">내용</label>
-        <input type="text" id="content" />
+        <input type="text" id="content" value="${pagination.content}"/>
         <%-- 이벤트를 주기 위해 클래스가 두개 board-search-button --%>
         <button type="button" class="search-button board-search-button">검색</button>
     </div>
@@ -98,28 +92,25 @@ pageEncoding="UTF-8"%>
         </tbody>
     </table>
     
-    페이지 수: ${pagination.pageCount} /
-    현재 페이지(블럭) 번호 : ${pagination.pageNo} /
-    노출 할 게시글의 개수 : ${pagination.listSize}
-    <ul class="paginator">
+    
+    <ul class="paginator bord-paginator">
         <c:if test="${pagination.hasNextGroup}">
-            <li>
-                <a href="/board/list?pageNo=0&listSize=${pagination.listSize}">처음</a>
+            <li data-page-no="0">
+                <a href="javascript:void(0);">처음</a>
             </li>
             
             
-            <li>
-                <a href="/board/list?pageNo=${pagination.prevGroupStartPageNo}&listSize=${pagination.listSize}">이전</a>
+            <li data-page-no="${pagination.prevGroupStartPageNo}">
+                <a href="javascript:void(0);">이전</a>
             </li>
         </c:if>
-    
     
         <c:forEach begin="${pagination.groupStartPageNo}"
                    end="${pagination.groupEndPageNo}"
                    step="1"
                    var="p">
-            <li class="${pagination.pageNo == p ? 'active' : ''}">
-                <a href="/board/list?pageNo=${p}&listSize=${pagination.listSize}">
+            <li data-page-no="${p}" class="${pagination.pageNo == p ? 'active' : ''}">
+                <a href="javascript:void(0);">
                     ${p+1}
                 </a>
             </li>
@@ -127,19 +118,33 @@ pageEncoding="UTF-8"%>
         </c:forEach>
         
         <c:if test="${pagination.hasPrevGroup}">
-            <li>
-                <a href="/board/list?pageNo=${pagination.nextGroupStartPageNo}&listSize=${pagination.listSize}">다음</a>
+            <li data-page-no="${pagination.nextGroupStartPageNo}">
+                <a href="javascript:void(0);">다음</a>
             </li>
             
-            <li>
-                <a href="/board/list?pageNo=${pagination.pageCount - 1}&listSize=${pagination.listSize}">마지막</a>
+            <li data-page-no="${pagination.pageCount - 1}">
+                <a href="javascript:void(0);">마지막</a>
             </li>
         </c:if>
+        
+        <li>
+            <!-- listSize 노출할 게시글 수 선택하기 -->
+		    <select id="list-Size">
+		       <option value="10" ${10 == pagination.listSize ? 'selected' : ''}>10</option>
+		       <option value="20" ${20 == pagination.listSize ? 'selected' : ''}>20</option>
+		       <option value="30" ${30 == pagination.listSize ? 'selected' : ''}>30</option>
+		       <option value="50" ${50 == pagination.listSize ? 'selected' : ''}>50</option>
+		       <option value="100" ${100 == pagination.listSize ? 'selected' : ''}>100</option>
+		    </select>
+        </li>
+        
     </ul>
+    
     
     
     <c:if test="${not empty sessionScope.__LOGIN_USER__}">
         <a href="/board/write">게시글 등록하기</a>
     </c:if>
-  </body>
-</html>
+
+<jsp:include page="/WEB-INF/views/layout/footer.jsp"/>
+
