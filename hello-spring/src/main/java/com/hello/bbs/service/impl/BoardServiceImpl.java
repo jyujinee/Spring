@@ -57,21 +57,27 @@ public class BoardServiceImpl implements BoardService {
 		// if insertCount > 0 then file upload
 		if(insertCount > 0) {
 			
+			// 파일을 여러 개 올릴 수 있으니깐 for문으로 파일 여러 개 만들어야한다.
 			for(MultipartFile file: boardWriteRequestVO.getFile()) {
 				System.out.println(boardWriteRequestVO.getFile());
+				
+				// 사용자가 업로드한 파일을 서버에 저장하는 객체
 				StoredFile storedFile = this.fileHandler.store(file);
+				
 				// NullpointerException을 확인해야한다. 
 				// storedFile null이 되는 경우를 방어 코딩 해야한다.
 				if(storedFile != null) {
 					// 파일 업로드가 정상적으로 이루어졌다.
 					// 파일 테이블에 필요한 파일 데이터를 추가한다.
 					// 게시글 아이디를 미리 발급받아서 insert한다. => mybatis에서 지원
-//					System.out.println("새로운 게시글의 아이디는 " + boardWriteRequestVO.getId() + "입니다.");
+
+					//System.out.println("새로운 게시글의 아이디는 " + boardWriteRequestVO.getId() + "입니다.");
 //					System.out.println(storedFile.getFileName());
 //					System.out.println(storedFile.getFileSize());
 //					System.out.println(storedFile.getRealFileName());
 //					System.out.println(storedFile.getRealFilePath());
 					
+					// 사용자가 업로드한 파일을 file객체로 만든다.
 					FileVO fileVO = new FileVO();
 					fileVO.setId(boardWriteRequestVO.getId());
 					fileVO.setFlNm(storedFile.getFileName());

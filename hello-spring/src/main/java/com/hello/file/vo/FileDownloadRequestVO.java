@@ -1,10 +1,13 @@
 package com.hello.file.vo;
 
 public class FileDownloadRequestVO {
-	// 게시글의 아이디
+	
+	// 게시글의 아이디 (맵퍼에서 쓰기 위해서)
 	private int id;
+	
 	// 파일의 아이디
 	private int flId;
+	
 	public int getId() {
 		return id;
 	}

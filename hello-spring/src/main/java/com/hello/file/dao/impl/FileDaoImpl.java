@@ -29,5 +29,4 @@ public class FileDaoImpl extends SqlSessionDaoSupport implements FileDao {
 		return this.getSqlSession().selectOne(NAME_SPACE + "selectOneFile", fileDownloadRequestVO);
 	}
 
-
 }
