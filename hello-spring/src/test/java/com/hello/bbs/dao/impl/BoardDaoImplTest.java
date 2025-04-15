@@ -30,7 +30,7 @@ public class BoardDaoImplTest {
 	
 	@Test
 	public void testCount() {
-		int count = boardDaoImpl.selectBoardAllCount();
+		int count = boardDaoImpl.selectBoardAllCount(null);
 		
 		Assertions.assertTrue(count > 0);
 //		int correctCount = 6; // 사용하는 컴퓨터 마다 DB가 다름(DB에서 확인하기)
@@ -39,7 +39,7 @@ public class BoardDaoImplTest {
 	
 	@Test
 	public void testSelect() {
-		List<BoardVO> boardlist = boardDaoImpl.selectAllBoard();
+		List<BoardVO> boardlist = boardDaoImpl.selectAllBoard(null);
 	      int size = boardlist.size();
 	      
 	      Assertions.assertTrue(size > 0);
