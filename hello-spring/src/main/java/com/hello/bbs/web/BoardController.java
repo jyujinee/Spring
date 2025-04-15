@@ -67,9 +67,10 @@ public class BoardController {
     public String doBoardWrite(@Valid @ModelAttribute BoardWriteRequestVO boardWriteRequestVO,
     							BindingResult bindingResult,
     							Model model, @SessionAttribute("__LOGIN_USER__") MembersVO memberVO) {
+    	
     	// @Valid는 파라미터 입력값 검사를 요청한다, 바로 BindingResult가 와야하며
     	// BindingResult는 @Valid의 검사 결과를 받아온다.
-    	// @ModelAttribute 스프링 form taglib를 사용할 떄만 작성
+    	// @ModelAttribute 스프링 form taglib를 사용할 때만 작성
     	
     	
     	// 에러가 있을 때 (유효성 검사의 에러) 게시글을 등록하면 안된다.
