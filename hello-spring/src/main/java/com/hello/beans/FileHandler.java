@@ -33,7 +33,7 @@ public class FileHandler {
 		this.baseDirLinux = baseDirLinux;
 	}
 
-	public void setbaseDirMacos(String baseDirMacos) {
+	public void setBaseDirMacos(String baseDirMacos) {
 		this.baseDirMacos = baseDirMacos;
 	}
 
@@ -41,7 +41,7 @@ public class FileHandler {
 		this.obfuscationEnable = obfuscationEnable;
 	}
 
-	public void setobfuscationHideExtEnable(boolean obfuscationHideExtEnable) {
+	public void setObfuscationHideExtEnable(boolean obfuscationHideExtEnable) {
 		this.obfuscationHideExtEnable = obfuscationHideExtEnable;
 	}
 

@@ -35,10 +35,10 @@ public class CustomBeanProvider {
 	public FileHandler fileHandler() {
 		FileHandler fileHandler = new FileHandler();
 		fileHandler.setBaseDirLinux(baseDirLinux);
-		fileHandler.setbaseDirMacos(baseDirMacos);
+		fileHandler.setBaseDirMacos(baseDirMacos);
 		fileHandler.setBaseDirWindows(baseDirWindows);
 		fileHandler.setObfuscationEnable(obfuscationEnable);
-		fileHandler.setobfuscationHideExtEnable(obfuscationHideExtEnable);
+		fileHandler.setObfuscationHideExtEnable(obfuscationHideExtEnable);
 		
 		String osname = System.getProperty("os.name");
 		fileHandler.setOsname(osname.toLowerCase());
