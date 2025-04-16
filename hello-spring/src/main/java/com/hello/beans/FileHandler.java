@@ -61,12 +61,12 @@ public class FileHandler {
 		// 목적지 설정
 		File storePath = null;
 
-		if(osname.startsWith("window")) {
+		if(osname.startsWith("windows")) {
 			storePath = new File(this.baseDirWindows, fileName);
 		}
 		else if(osname.startsWith("mac")) {
 			String homePath = System.getProperty("user.home");
-			storePath = new File(this.baseDirMacos, fileName);
+			storePath = new File(homePath + this.baseDirMacos, fileName);
 		}
 		else {
 			storePath = new File(this.baseDirLinux, fileName);
